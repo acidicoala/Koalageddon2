@@ -1,9 +1,9 @@
-package acidicoala.koalageddon.feature.settings.di
+package acidicoala.koalageddon.settings.di
 
 import acidicoala.koalageddon.core.use_case.ShowSnackbar
-import acidicoala.koalageddon.feature.settings.domain.use_case.ReadSettings
-import acidicoala.koalageddon.feature.settings.domain.use_case.SaveSettings
-import acidicoala.koalageddon.feature.settings.ui.SettingsScreenModel
+import acidicoala.koalageddon.settings.domain.use_case.ReadSettings
+import acidicoala.koalageddon.settings.domain.use_case.SaveSettings
+import acidicoala.koalageddon.settings.ui.SettingsScreenModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.kodein.di.*
 

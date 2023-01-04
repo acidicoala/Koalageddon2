@@ -1,9 +1,9 @@
-package acidicoala.koalageddon.feature.settings.domain.use_case
+package acidicoala.koalageddon.settings.domain.use_case
 
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.AppPaths
 import acidicoala.koalageddon.core.serialization.json
-import acidicoala.koalageddon.feature.settings.domain.model.Settings
+import acidicoala.koalageddon.settings.domain.model.Settings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.serialization.ExperimentalSerializationApi

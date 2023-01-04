@@ -1,4 +1,4 @@
-package acidicoala.koalageddon.feature.settings.domain.model
+package acidicoala.koalageddon.settings.domain.model
 
 import acidicoala.koalageddon.core.model.TextString
 import acidicoala.koalageddon.core.values.Strings

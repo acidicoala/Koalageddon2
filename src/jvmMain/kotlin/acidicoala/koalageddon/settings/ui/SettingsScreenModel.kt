@@ -1,9 +1,9 @@
-package acidicoala.koalageddon.feature.settings.ui
+package acidicoala.koalageddon.settings.ui
 
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.use_case.ShowSnackbar
-import acidicoala.koalageddon.feature.settings.domain.model.Settings
-import acidicoala.koalageddon.feature.settings.domain.use_case.SaveSettings
+import acidicoala.koalageddon.settings.domain.model.Settings
+import acidicoala.koalageddon.settings.domain.use_case.SaveSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.kodein.di.DI

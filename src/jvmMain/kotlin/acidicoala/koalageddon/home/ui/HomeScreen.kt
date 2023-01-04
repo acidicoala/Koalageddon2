@@ -1,8 +1,8 @@
 package acidicoala.koalageddon.home.ui
 
 import acidicoala.koalageddon.core.event.CoreEvent
-import acidicoala.koalageddon.feature.settings.ui.SettingsScreen
-import acidicoala.koalageddon.feature.steam.ui.SteamScreen
+import acidicoala.koalageddon.settings.ui.SettingsScreen
+import acidicoala.koalageddon.steam.ui.SteamScreen
 import acidicoala.koalageddon.home.model.HomeTab
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding

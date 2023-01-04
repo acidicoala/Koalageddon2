@@ -5,10 +5,9 @@ import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.AppTheme
 import acidicoala.koalageddon.core.values.Strings
-import acidicoala.koalageddon.feature.settings.di.settingsModule
-import acidicoala.koalageddon.feature.settings.domain.model.Settings
+import acidicoala.koalageddon.settings.di.settingsModule
+import acidicoala.koalageddon.settings.domain.model.Settings
 import acidicoala.koalageddon.home.ui.HomeScreen
-import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -47,9 +46,9 @@ fun main() = singleWindowApplication {
         MaterialTheme(colors = colors) {
             CompositionLocalProvider(LocalSettings provides settings) {
                 CompositionLocalProvider(LocalStrings provides strings) {
-                    CompositionLocalProvider(LocalElevationOverlay provides null){
+//                    CompositionLocalProvider(LocalElevationOverlay provides null){
                         HomeScreen()
-                    }
+//                    }
                 }
             }
         }

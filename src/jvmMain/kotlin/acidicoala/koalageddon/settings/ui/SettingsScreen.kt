@@ -1,12 +1,15 @@
-package acidicoala.koalageddon.feature.settings.ui
+package acidicoala.koalageddon.settings.ui
 
 import acidicoala.koalageddon.core.ui.composable.ButtonOption
 import acidicoala.koalageddon.core.ui.composable.DropdownOption
+import acidicoala.koalageddon.core.ui.composable.VerticalScrollContainer
 import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
-import acidicoala.koalageddon.feature.settings.domain.model.Settings
-import androidx.compose.foundation.layout.*
+import acidicoala.koalageddon.settings.domain.model.Settings
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,13 +24,11 @@ fun SettingsScreen() {
 
     val screenModel: SettingsScreenModel by localDI().instance()
 
-    Box(
+    VerticalScrollContainer(
         contentAlignment = Alignment.TopCenter,
-        modifier = Modifier.fillMaxSize()
     ) {
-
         Column(
-            modifier = Modifier.widthIn(max = 480.dp).padding(DefaultContentPadding)
+            modifier = Modifier.widthIn(max = 480.dp).padding(DefaultContentPadding),
         ) {
             DropdownOption(
                 label = strings.theme,

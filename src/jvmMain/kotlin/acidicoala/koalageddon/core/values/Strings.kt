@@ -21,7 +21,7 @@ sealed class Strings(
         theme = "Theme",
         themeDark = "Dark",
         themeLight = "Light",
-        version = "Version v${BuildConfig.APP_VERSION}"
+        version = "Version v${BuildConfig.APP_VERSION}",
     )
 
     object Russian : Strings(
@@ -31,7 +31,7 @@ sealed class Strings(
         theme = "Тема",
         themeDark = "Тёмная",
         themeLight = "Светлая",
-        version = "Версия v${BuildConfig.APP_VERSION}"
+        version = "Версия v${BuildConfig.APP_VERSION}",
     )
 }
 

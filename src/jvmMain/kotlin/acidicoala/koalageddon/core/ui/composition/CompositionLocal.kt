@@ -1,6 +1,6 @@
 package acidicoala.koalageddon.core.ui.composition
 
-import acidicoala.koalageddon.feature.settings.domain.model.Settings
+import acidicoala.koalageddon.settings.domain.model.Settings
 import acidicoala.koalageddon.core.values.Strings
 import androidx.compose.runtime.compositionLocalOf
 

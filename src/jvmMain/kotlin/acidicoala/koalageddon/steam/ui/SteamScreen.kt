@@ -1,4 +1,4 @@
-package acidicoala.koalageddon.feature.steam.ui
+package acidicoala.koalageddon.steam.ui
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
