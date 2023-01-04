@@ -1,6 +1,7 @@
 package acidicoala.koalageddon.core.values
 
 sealed class Strings(
+    val checkForUpdates: String,
     val language: String,
     val languageEn: String = "English",
     val languageRu: String = "Русский",
@@ -11,6 +12,7 @@ sealed class Strings(
     val themeLight: String,
 ) {
     object English : Strings(
+        checkForUpdates = "Check for updates",
         language = "Language",
         settings = "Settings",
         theme = "Theme",
@@ -19,6 +21,7 @@ sealed class Strings(
     )
 
     object Russian : Strings(
+        checkForUpdates = "Проверить обновления",
         language = "Язык",
         settings = "Настройки",
         theme = "Тема",

@@ -1,4 +1,4 @@
-package acidicoala.koalageddon.main.model
+package acidicoala.koalageddon.home.model
 
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.DefaultIconSize
@@ -13,8 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 
-sealed class MainTab(val label: @Composable () -> String, val icon: @Composable () -> Unit) {
-    object Steam : MainTab(
+enum class HomeTab(
+    val label: @Composable () -> String,
+    val icon: @Composable () -> Unit
+) {
+    Steam(
         label = { LocalStrings.current.storeSteam },
         icon = {
             Image(
@@ -23,9 +26,9 @@ sealed class MainTab(val label: @Composable () -> String, val icon: @Composable 
                 modifier = Modifier.size(DefaultIconSize)
             )
         }
-    )
+    ),
 
-    object Settings : MainTab(
+    Settings(
         label = { LocalStrings.current.settings },
         icon = {
             Icon(
@@ -35,5 +38,5 @@ sealed class MainTab(val label: @Composable () -> String, val icon: @Composable 
                 modifier = Modifier.size(DefaultIconSize)
             )
         }
-    )
+    );
 }

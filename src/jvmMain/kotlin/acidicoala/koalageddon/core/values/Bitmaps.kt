@@ -1,5 +1,5 @@
 package acidicoala.koalageddon.core.values
 
 object Bitmaps {
-    const val Steam = "steam.png"
+    const val Steam = "images/steam.png"
 }

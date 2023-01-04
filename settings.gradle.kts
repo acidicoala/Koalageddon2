@@ -11,8 +11,8 @@ pluginManagement {
         val composeVersion = extra["compose.version"] as String
 
         kotlin("multiplatform").version(kotlinVersion)
-        id("org.jetbrains.compose").version(composeVersion)
         kotlin("plugin.serialization").version(kotlinVersion)
+        id("org.jetbrains.compose").version(composeVersion)
     }
 }
 
