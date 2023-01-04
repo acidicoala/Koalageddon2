@@ -42,7 +42,7 @@ class AppLogger(override val di: DI) : DIAware {
         info("🐨 Koalageddon 💥 v${BuildConfig.APP_VERSION}")
     }
 
-    private fun format(emoji: String, message: String): String {
+    private fun format(levelEmoji: String, message: String): String {
         // Remove usernames from log messages in order to ensure user's privacy
         val userMatch = userRegex.find(message)
         val userName = userMatch?.groups?.get("user")?.value
@@ -50,7 +50,7 @@ class AppLogger(override val di: DI) : DIAware {
         val sanitisedMessage = userName?.let { message.replace(it, "%USERNAME%") }
             ?: message
 
-        return "$emoji | $sanitisedMessage"
+        return "$levelEmoji | $sanitisedMessage"
 
     }
 

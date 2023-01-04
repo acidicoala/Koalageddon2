@@ -6,9 +6,9 @@ import acidicoala.koalageddon.core.values.Bitmaps
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -34,7 +34,7 @@ enum class HomeTab(
             Icon(
                 imageVector = Icons.Default.Settings,
                 contentDescription = LocalStrings.current.settings,
-                tint = MaterialTheme.colorScheme.onSurface,
+                tint = MaterialTheme.colors.onSurface,
                 modifier = Modifier.size(DefaultIconSize)
             )
         }

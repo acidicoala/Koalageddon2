@@ -1,4 +1,3 @@
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
@@ -42,8 +41,6 @@ kotlin {
                 // https://github.com/JetBrains/compose-jb
                 implementation(compose.desktop.currentOs)
                 implementation(compose.materialIconsExtended)
-                @OptIn(ExperimentalComposeLibrary::class)
-                implementation(compose.material3)
 
                 // https://github.com/Kotlin/kotlinx.serialization
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")

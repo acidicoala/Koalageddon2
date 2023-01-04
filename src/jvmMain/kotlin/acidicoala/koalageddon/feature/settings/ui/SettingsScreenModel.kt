@@ -1,5 +1,6 @@
 package acidicoala.koalageddon.feature.settings.ui
 
+import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.use_case.ShowSnackbar
 import acidicoala.koalageddon.feature.settings.domain.model.Settings
 import acidicoala.koalageddon.feature.settings.domain.use_case.SaveSettings
@@ -10,15 +11,20 @@ import org.kodein.di.DIAware
 import org.kodein.di.instance
 
 class SettingsScreenModel(override val di: DI) : DIAware {
+    private val logger: AppLogger by instance()
     private val scope: CoroutineScope by instance()
     private val showSnackbar: ShowSnackbar by instance()
     private val saveSettings: SaveSettings by instance()
 
     fun onThemeChanged(theme: Settings.Theme) {
+        logger.info("Setting theme to $theme")
+
         saveSettings { copy(theme = theme) }
     }
 
     fun onLanguageChanged(language: Settings.Language) {
+        logger.info("Settings language to $language")
+
         saveSettings { copy(language = language) }
     }
 
