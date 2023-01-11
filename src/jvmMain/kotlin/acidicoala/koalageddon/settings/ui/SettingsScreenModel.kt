@@ -1,6 +1,7 @@
 package acidicoala.koalageddon.settings.ui
 
 import acidicoala.koalageddon.core.logging.AppLogger
+import acidicoala.koalageddon.core.model.TextString
 import acidicoala.koalageddon.core.use_case.ShowSnackbar
 import acidicoala.koalageddon.settings.domain.model.Settings
 import acidicoala.koalageddon.settings.domain.use_case.SaveSettings
@@ -30,7 +31,8 @@ class SettingsScreenModel(override val di: DI) : DIAware {
 
     fun onCheckForUpdates() {
         scope.launch {
-            showSnackbar("NOT IMPLEMENTED")
+            // TODO
+            showSnackbar(TextString { "NOT IMPLEMENTED" })
         }
     }
 }

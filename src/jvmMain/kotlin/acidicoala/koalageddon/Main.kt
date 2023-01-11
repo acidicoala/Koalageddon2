@@ -3,12 +3,14 @@ package acidicoala.koalageddon
 import acidicoala.koalageddon.core.di.coreModule
 import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
+import acidicoala.koalageddon.core.ui.theme.AppRippleTheme
 import acidicoala.koalageddon.core.ui.theme.AppTheme
-import acidicoala.koalageddon.core.values.Strings
+import acidicoala.koalageddon.home.ui.HomeScreen
 import acidicoala.koalageddon.settings.di.settingsModule
 import acidicoala.koalageddon.settings.domain.model.Settings
-import acidicoala.koalageddon.home.ui.HomeScreen
+import acidicoala.koalageddon.steam.di.steamModule
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,27 +30,24 @@ fun main() = singleWindowApplication {
 
     withDI({
         bindInstance { appScope }
-        importAll(coreModule, settingsModule)
+        importAll(coreModule, settingsModule, steamModule)
     }) {
         val settingsFlow: MutableStateFlow<Settings> by localDI().instance()
         val settings by settingsFlow.collectAsState()
-
-        val strings = when (settings.language) {
-            Settings.Language.English -> Strings.English
-            Settings.Language.Russian -> Strings.Russian
-        }
 
         val colors = when (settings.theme) {
             Settings.Theme.Dark -> AppTheme.Material.darkColors
             Settings.Theme.Light -> AppTheme.Material.lightColors
         }
 
+        // CompositionLocalProvider(LocalElevationOverlay provides null){
+
         MaterialTheme(colors = colors) {
             CompositionLocalProvider(LocalSettings provides settings) {
-                CompositionLocalProvider(LocalStrings provides strings) {
-//                    CompositionLocalProvider(LocalElevationOverlay provides null){
+                CompositionLocalProvider(LocalStrings provides settings.strings) {
+                    CompositionLocalProvider(LocalRippleTheme provides AppRippleTheme) {
                         HomeScreen()
-//                    }
+                    }
                 }
             }
         }

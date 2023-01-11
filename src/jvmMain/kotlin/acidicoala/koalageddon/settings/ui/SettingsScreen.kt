@@ -6,6 +6,7 @@ import acidicoala.koalageddon.core.ui.composable.VerticalScrollContainer
 import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
+import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
 import acidicoala.koalageddon.settings.domain.model.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -13,22 +14,23 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
 @Composable
 fun SettingsScreen() {
+    val screenModel: SettingsScreenModel by localDI().instance()
+
     val settings = LocalSettings.current
     val strings = LocalStrings.current
-
-    val screenModel: SettingsScreenModel by localDI().instance()
 
     VerticalScrollContainer(
         contentAlignment = Alignment.TopCenter,
     ) {
         Column(
-            modifier = Modifier.widthIn(max = 480.dp).padding(DefaultContentPadding),
+            modifier = Modifier
+                .widthIn(max = DefaultMaxWidth)
+                .padding(DefaultContentPadding),
         ) {
             DropdownOption(
                 label = strings.theme,

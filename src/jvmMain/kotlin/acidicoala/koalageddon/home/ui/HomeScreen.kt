@@ -1,14 +1,17 @@
 package acidicoala.koalageddon.home.ui
 
 import acidicoala.koalageddon.core.event.CoreEvent
+import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
+import acidicoala.koalageddon.home.model.HomeTab
 import acidicoala.koalageddon.settings.ui.SettingsScreen
 import acidicoala.koalageddon.steam.ui.SteamScreen
-import acidicoala.koalageddon.home.model.HomeTab
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.localDI
@@ -21,17 +24,20 @@ fun HomeScreen() {
     val tabs = HomeTab.values()
 
     // Handle core events
-    val scope = rememberCoroutineScope()
     val snackbarState = remember { SnackbarHostState() }
     val coreEventFlow: MutableSharedFlow<CoreEvent> by localDI().instance()
-    scope.launch {
-        coreEventFlow.collect { event ->
-            when (event) {
-                is CoreEvent.ShowSnackbar -> snackbarState.showSnackbar(
-                    message = event.message,
-                    actionLabel = event.actionLabel,
-                    duration = event.duration
-                )
+    val appScope: CoroutineScope by localDI().instance()
+
+    LaunchedEffect(appScope) {
+        appScope.launch {
+            coreEventFlow.collect { event ->
+                when (event) {
+                    is CoreEvent.ShowSnackbar -> snackbarState.showSnackbar(
+                        message = event.message,
+                        actionLabel = event.actionLabel,
+                        duration = event.duration
+                    )
+                }
             }
         }
     }
@@ -42,17 +48,14 @@ fun HomeScreen() {
                 selectedTabIndex = tabs.indexOf(selectedTab)
             ) {
                 tabs.forEach { tab ->
-                    LeadingIconTab(
-                        selected = tab == selectedTab,
+                    LeadingIconTab(selected = tab == selectedTab,
                         onClick = { selectedTab = tab },
                         icon = tab.icon,
                         text = {
                             Text(
-                                text = tab.label(),
-                                color = MaterialTheme.colors.onSurface
+                                text = tab.label(), color = MaterialTheme.colors.onSurface
                             )
-                        }
-                    )
+                        })
                 }
             }
         },
@@ -65,7 +68,7 @@ fun HomeScreen() {
             }
         },
         snackbarHost = {
-            SnackbarHost(snackbarState)
+            SnackbarHost(snackbarState, modifier = Modifier.widthIn(max = DefaultMaxWidth))
         },
     )
 }

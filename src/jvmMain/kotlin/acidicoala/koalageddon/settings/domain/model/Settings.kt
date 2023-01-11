@@ -1,8 +1,9 @@
 package acidicoala.koalageddon.settings.domain.model
 
-import acidicoala.koalageddon.core.model.TextString
+import acidicoala.koalageddon.core.model.ITextString
 import acidicoala.koalageddon.core.values.Strings
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Serializable
 data class Settings constructor(
@@ -10,22 +11,28 @@ data class Settings constructor(
     val language: Language = Language.English,
 ) {
     @Serializable
-    enum class Theme : TextString {
+    enum class Theme : ITextString {
         Dark {
-            override fun factory(strings: Strings) = strings.themeDark
+            override fun text(strings: Strings) = strings.themeDark
         },
         Light {
-            override fun factory(strings: Strings) = strings.themeLight
+            override fun text(strings: Strings) = strings.themeLight
         }
     }
 
     @Serializable
-    enum class Language : TextString {
+    enum class Language : ITextString {
         English {
-            override fun factory(strings: Strings) = strings.languageEn
+            override fun text(strings: Strings) = strings.languageEn
         },
         Russian {
-            override fun factory(strings: Strings) = strings.languageRu
+            override fun text(strings: Strings) = strings.languageRu
         }
+    }
+
+    @Transient
+    val strings = when (language) {
+        Settings.Language.English -> Strings.English
+        Settings.Language.Russian -> Strings.Russian
     }
 }

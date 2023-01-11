@@ -2,7 +2,6 @@ package acidicoala.koalageddon.core.event
 
 import androidx.compose.material.SnackbarDuration
 
-
 sealed interface CoreEvent {
     class ShowSnackbar(
         val message: String,
