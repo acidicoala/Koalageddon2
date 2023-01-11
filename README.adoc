@@ -1,6 +1,6 @@
 = 🐨 Koalageddon 💥 v2
 
-TODO: Fill info...
+image::src/jvmMain/resources/images/icon.png[,200,200]
 
 == 🌐 Translation
 
