@@ -5,6 +5,7 @@ import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.AppRippleTheme
 import acidicoala.koalageddon.core.ui.theme.AppTheme
+import acidicoala.koalageddon.core.values.Bitmaps
 import acidicoala.koalageddon.home.ui.HomeScreen
 import acidicoala.koalageddon.settings.di.settingsModule
 import acidicoala.koalageddon.settings.domain.model.Settings
@@ -15,7 +16,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.window.singleWindowApplication
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.kodein.di.bindInstance
 import org.kodein.di.compose.localDI
@@ -23,30 +26,36 @@ import org.kodein.di.compose.withDI
 import org.kodein.di.instance
 import java.awt.Dimension
 
-fun main() = singleWindowApplication {
-    window.minimumSize = Dimension(640, 480)
+fun main() = application {
+    Window(
+        onCloseRequest = ::exitApplication,
+        icon = painterResource(Bitmaps.Icon),
+        title = "Koalageddon"
+    ) {
+        window.minimumSize = Dimension(640, 480)
 
-    val appScope = rememberCoroutineScope()
+        val appScope = rememberCoroutineScope()
 
-    withDI({
-        bindInstance { appScope }
-        importAll(coreModule, settingsModule, steamModule)
-    }) {
-        val settingsFlow: MutableStateFlow<Settings> by localDI().instance()
-        val settings by settingsFlow.collectAsState()
+        withDI({
+            bindInstance { appScope }
+            importAll(coreModule, settingsModule, steamModule)
+        }) {
+            val settingsFlow: MutableStateFlow<Settings> by localDI().instance()
+            val settings by settingsFlow.collectAsState()
 
-        val colors = when (settings.theme) {
-            Settings.Theme.Dark -> AppTheme.Material.darkColors
-            Settings.Theme.Light -> AppTheme.Material.lightColors
-        }
+            val colors = when (settings.theme) {
+                Settings.Theme.Dark -> AppTheme.Material.darkColors
+                Settings.Theme.Light -> AppTheme.Material.lightColors
+            }
 
-        // CompositionLocalProvider(LocalElevationOverlay provides null){
+            // CompositionLocalProvider(LocalElevationOverlay provides null){
 
-        MaterialTheme(colors = colors) {
-            CompositionLocalProvider(LocalSettings provides settings) {
-                CompositionLocalProvider(LocalStrings provides settings.strings) {
-                    CompositionLocalProvider(LocalRippleTheme provides AppRippleTheme) {
-                        HomeScreen()
+            MaterialTheme(colors = colors) {
+                CompositionLocalProvider(LocalSettings provides settings) {
+                    CompositionLocalProvider(LocalStrings provides settings.strings) {
+                        CompositionLocalProvider(LocalRippleTheme provides AppRippleTheme) {
+                            HomeScreen()
+                        }
                     }
                 }
             }

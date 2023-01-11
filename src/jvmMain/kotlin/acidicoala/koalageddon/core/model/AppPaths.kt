@@ -13,6 +13,6 @@ class AppPaths {
         createDirectories()
     }
 
-    val settings = dataPath / "settings.json"
-    val log = dataPath / "log.log"
+    val settings = dataPath / "Koalageddon.settings.json"
+    val log = dataPath / "Koalageddon.log.log"
 }

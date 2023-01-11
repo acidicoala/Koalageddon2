@@ -1,0 +1,19 @@
+= 🐨 Koalageddon 💥 v2
+
+TODO: Fill info...
+
+== 🌐 Translation
+
+* User strings are defined in link:src/jvmMain/kotlin/acidicoala/koalageddon/core/values/Strings.kt[Strings.kt]
+* Languages are defined in link:src/jvmMain/kotlin/acidicoala/koalageddon/settings/domain/model/Settings.kt[Settings.kt]
+
+== 🏗️ Development setup
+
+=== Requirements
+
+* https://jdk.java.net/18[JDK 18]
+
+=== Commands
+
+Build the project: `.\gradlew.bat createDistributable`.
+The command will write the build directory in console output.
