@@ -25,8 +25,11 @@ import org.kodein.di.compose.localDI
 import org.kodein.di.compose.withDI
 import org.kodein.di.instance
 import java.awt.Dimension
+import javax.swing.UIManager
 
 fun main() = application {
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+
     Window(
         onCloseRequest = ::exitApplication,
         icon = painterResource(Bitmaps.Icon),

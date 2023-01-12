@@ -34,6 +34,7 @@ fun SteamScreen() {
                 .widthIn(max = DefaultMaxWidth)
                 .padding(DefaultContentPadding),
         ) {
+            // Use ButtonOption, show Steam running status as label, disable button if not running
             Button(onClick = screenModel::onReloadConfig) {
                 Icon(imageVector = Icons.Default.Refresh, contentDescription = strings.reloadConfig)
 

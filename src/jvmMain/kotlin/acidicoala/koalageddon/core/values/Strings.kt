@@ -7,6 +7,7 @@ sealed class Strings(
     val language: String,
     val languageEn: String = "English",
     val languageRu: String = "Русский",
+    val openDataDirectory: String,
     val reloadConfig: String,
     val reloadConfigSuccess: String,
     val reloadConfigError: String,
@@ -20,6 +21,7 @@ sealed class Strings(
     object English : Strings(
         checkForUpdates = "Check for updates",
         language = "Language",
+        openDataDirectory = "Open data directory",
         reloadConfig = "Reload configuration",
         reloadConfigSuccess = "✅ Configuration was successfully reloaded",
         reloadConfigError = "❌ Error reloading configuration",
@@ -33,6 +35,7 @@ sealed class Strings(
     object Russian : Strings(
         checkForUpdates = "Проверить обновления",
         language = "Язык",
+        openDataDirectory = "Открыть директорию данных",
         reloadConfig = "Перезагрузить конфигурацию",
         reloadConfigSuccess = "✅ Конфигурация была успешно перезагружена",
         reloadConfigError = "❌ Ошибка при перезагруки конфигурации",

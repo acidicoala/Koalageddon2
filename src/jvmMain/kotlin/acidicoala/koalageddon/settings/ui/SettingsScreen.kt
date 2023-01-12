@@ -51,6 +51,12 @@ fun SettingsScreen() {
                 buttonLabel = strings.checkForUpdates,
                 onClick = screenModel::onCheckForUpdates
             )
+
+            ButtonOption(
+                label = "",
+                buttonLabel = strings.openDataDirectory,
+                onClick = screenModel::onOpenDataDirectory
+            )
         }
     }
 }

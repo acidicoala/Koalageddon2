@@ -14,8 +14,9 @@ import org.kodein.di.DIAware
 import org.kodein.di.instance
 import java.io.RandomAccessFile
 
-class SendIPCRequest(override val di: DI) : DIAware {
+class SendPipeRequest(override val di: DI) : DIAware {
     companion object {
+        // Must be synchronized with KoalaBox
         const val BUFFER_SIZE = 32 * 1024 // 32Kb
     }
 

@@ -7,13 +7,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.bindSingleton
+import org.kodein.di.instance
 
 val settingsModule = DI.Module(name = "Settings") {
     bindProvider { SaveSettings(di) }
     bindProvider { SettingsScreenModel(di) }
+    bindProvider { ReadSettings(di) }
 
     bindSingleton {
-        val readSettings = ReadSettings(di)
+        val readSettings: ReadSettings by di.instance()
         MutableStateFlow(readSettings())
     }
 }

@@ -7,12 +7,12 @@ import kotlin.io.path.createDirectories
 import kotlin.io.path.div
 
 class AppPaths {
-    private val dataPath = Path(
+    val data = Path(
         AppDirsFactory.getInstance().getUserDataDir(BuildConfig.APP_NAME, "", BuildConfig.APP_AUTHOR)
     ).apply {
         createDirectories()
     }
 
-    val settings = dataPath / "Koalageddon.settings.json"
-    val log = dataPath / "Koalageddon.log.log"
+    val settings = data / "Koalageddon.settings.json"
+    val log = data / "Koalageddon.log.log"
 }

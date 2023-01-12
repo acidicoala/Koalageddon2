@@ -25,7 +25,6 @@ class AppLogger(override val di: DI) : DIAware {
     private val userRegex = """\w:[/\\]Users[/\\]([^/\\]+)""".toRegex(RegexOption.IGNORE_CASE)
 
     init {
-
         val format = "{message}"
 
         Configuration.replace(
@@ -43,7 +42,8 @@ class AppLogger(override val di: DI) : DIAware {
 
         logger = LoggerFactory.getLogger(AppLogger::class.java)
 
-        info("🐨💥 Koalageddon v${BuildConfig.APP_VERSION}")
+        val compileTime = SimpleDateFormat.getDateTimeInstance().format(Date.from(Instant.now()))
+        info("🐨💥 Koalageddon v${BuildConfig.APP_VERSION} | Compiled at '$compileTime'")
     }
 
     private fun format(levelEmoji: String, message: String): String {
@@ -61,7 +61,7 @@ class AppLogger(override val di: DI) : DIAware {
             .getOrNull(2)
             ?.run {
                 val line = "$lineNumber".padStart(3)
-                val source = fileName.padEnd(24)
+                val source = fileName.take(32).padEnd(32)
 
                 "$line:$source"
             }

@@ -1,0 +1,30 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - name: 📥 Checkout the code
+      - uses: actions/checkout@v3
+
+      - name: 🛠️ Set up Oracle JDK 19
+        uses: oracle-actions/setup-java@v1
+        with:
+          release: 19
+
+      - name: ✔️ Validate the Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: 🏗️ Build the project with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: createDistributable
+
+      - name: 📤 Upload build artifacts
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: build/compose/binaries/main/app
