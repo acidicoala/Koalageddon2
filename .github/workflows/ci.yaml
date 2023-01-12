@@ -10,7 +10,7 @@ jobs:
       - name: 🛠️ Set up Oracle JDK
         uses: oracle-actions/setup-java@v1
         with:
-          release: 18
+          release: 17
 
       - name: ✔️ Validate the Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
