@@ -5,7 +5,7 @@ jobs:
     runs-on: windows-2022
     steps:
       - name: 📥 Checkout the code
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
 
       - name: 🛠️ Set up Oracle JDK 19
         uses: oracle-actions/setup-java@v1
