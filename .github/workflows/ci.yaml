@@ -1,11 +1,8 @@
 name: CI
-
-on: [push]
-
+on: [ push ]
 jobs:
   build:
     runs-on: windows-2022
-
     steps:
       - name: 📥 Checkout the code
       - uses: actions/checkout@v3
