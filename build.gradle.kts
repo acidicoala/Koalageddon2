@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "acidicoala"
-version = "2.0-alpha01"
+version = "2.0.0-alpha01"
 
 repositories {
     google()
@@ -29,7 +29,7 @@ kotlin {
     jvm {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "18"
+                jvmTarget = "11"
             }
         }
         withJava()

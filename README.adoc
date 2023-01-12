@@ -6,14 +6,25 @@ image::src/jvmMain/resources/images/icon.png[,200,200]
 
 === ✅ Requirements
 
-* https://jdk.java.net/18[JDK 18] or higher
+* Java Development Kit (JDK)
+** Minimum version: `11`. https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/windows-7-install.html[Download].
+** Release build version: `17`. https://www.oracle.com/java/technologies/downloads/#java17[Download].
 
 === 👨‍💻 Commands
 
-Build the project: `.\gradlew.bat createDistributable`.
-The command will write the build directory in console output.
+Build the project:
+
+----
+.\gradlew.bat createDistributable
+----
+
+This command will write the build directory in the console output.
 
 === 🌐 Translation
 
 * User strings are defined in link:src/jvmMain/kotlin/acidicoala/koalageddon/core/values/Strings.kt[Strings.kt]
 * Languages are defined in link:src/jvmMain/kotlin/acidicoala/koalageddon/settings/domain/model/Settings.kt[Settings.kt]
+
+== 📄 License
+
+This software is licensed under the https://unlicense.org/[Unlicense], terms of which are available in link:UNLICENSE.txt[UNLICENSE.txt]
