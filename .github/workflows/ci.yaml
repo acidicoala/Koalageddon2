@@ -21,7 +21,7 @@ jobs:
           arguments: createDistributable
 
       - name: 📤 Upload build artifacts
-      - uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3
         with:
           name: build
           path: build/compose/binaries/main/app
