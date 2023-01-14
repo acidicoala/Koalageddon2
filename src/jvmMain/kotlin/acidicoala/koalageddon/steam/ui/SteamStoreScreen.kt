@@ -1,6 +1,7 @@
 package acidicoala.koalageddon.steam.ui
 
 import acidicoala.koalageddon.core.model.InstallationStatus
+import acidicoala.koalageddon.core.model.Store
 import acidicoala.koalageddon.core.ui.composable.*
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.AppTheme
@@ -58,7 +59,8 @@ fun SteamStoreScreen() {
             )
 
             InstallationStatusOption(
-                checklist = state.installationChecklist
+                checklist = state.installationChecklist,
+                store = Store.Steam
             )
 
             ButtonOption(

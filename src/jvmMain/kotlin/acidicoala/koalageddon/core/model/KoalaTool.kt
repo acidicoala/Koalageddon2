@@ -7,18 +7,37 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.JsonObject
 import java.nio.file.Path
 
-sealed class Unlocker(
-    val dllName: String,
-    val configName: String
-) {
+sealed class KoalaTool(val name: String, val originalName: String, val majorVersion: Int) {
+    val dllName = "$name.dll"
+    val configName = "$name.config.json"
+    val gitHubReleaseUrl = "https://api.github.com/repos/acidicoala/$name/releases"
+
     interface IConfig
 
     abstract fun parseConfig(path: Path): IConfig
 
-    object SmokeAPI : Unlocker(
-        dllName = "SmokeAPI.dll",
-        configName = "SmokeAPI.config.json"
-    ) {
+    object Koaloader : KoalaTool(name = "Koaloader", originalName = "version", majorVersion = 3) {
+        @Serializable
+        data class Module(
+            val path: String = "",
+            val required: Boolean = true,
+        )
+
+        @Serializable
+        data class Config(
+            val logging: Boolean = false,
+            val enabled: Boolean = true,
+            @SerialName("auto_load")
+            val autoLoad: Boolean = true,
+            val targets: List<String> = listOf(),
+            val modules: List<Module> = listOf(),
+        ) : IConfig
+
+        override fun parseConfig(path: Path) = appJson.decodeFromString<Config>(path.toFile().readText())
+
+    }
+
+    object SmokeAPI : KoalaTool(name = "SmokeAPI", originalName = "steam_api", majorVersion = 2) {
         @Serializable
         enum class AppStatus {
             @SerialName("original")

@@ -1,8 +1,6 @@
 package acidicoala.koalageddon.core.ui.composable
 
-import acidicoala.koalageddon.core.model.InstallationChecklist
-import acidicoala.koalageddon.core.model.InstallationStatus
-import acidicoala.koalageddon.core.ui.composition.LocalStrings
+import acidicoala.koalageddon.core.model.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.Icon
@@ -27,12 +25,10 @@ class ChecklistOpenState {
 fun rememberChecklistOpenState() = remember { ChecklistOpenState() }
 
 @Composable
-fun InstallationChecklistDropdown(openState: ChecklistOpenState, checklist: InstallationChecklist) {
+fun InstallationChecklistDropdown(store: Store, openState: ChecklistOpenState, checklist: InstallationChecklist) {
     if (!openState.open.value) {
         return
     }
-
-    val strings = LocalStrings.current
 
     DropdownMenu(
         expanded = openState.open.value,
@@ -60,23 +56,23 @@ fun InstallationChecklistDropdown(openState: ChecklistOpenState, checklist: Inst
 
         Column(Modifier.padding(horizontal = 8.dp)) {
             ListItem(
-                checked = checklist.loaderDll,
-                label = strings.loaderDll
+                checked = checklist.koaloaderDll,
+                label = LangString("%0" to KoalaTool.Koaloader.name) { toolDll }.text
             )
 
             ListItem(
-                checked = checklist.loaderConfig,
-                label = strings.loaderConfig
+                checked = checklist.koaloaderConfig,
+                label = LangString("%0" to KoalaTool.Koaloader.name) { toolConfig }.text
             )
 
             ListItem(
                 checked = checklist.unlockerDll,
-                label = strings.unlockerDll
+                label = LangString("%0" to store.unlocker.name) { toolDll }.text
             )
 
             ListItem(
                 checked = checklist.unlockerConfig,
-                label = strings.unlockerConfig
+                label = LangString("%0" to store.unlocker.name) { toolConfig }.text
             )
         }
     }

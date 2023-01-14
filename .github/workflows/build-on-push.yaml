@@ -22,6 +22,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: createDistributable
+          cache-disabled: true # TODO: Remove this once repo is public
 
       - name: 📤 Upload build artifacts
         uses: actions/upload-artifact@v3

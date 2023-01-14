@@ -9,15 +9,15 @@ class SemanticVersion private constructor(
     companion object {
         private val versionRegex = """v(\d+)\.(\d+)\.(\d+)""".toRegex()
 
-        fun fromGitTag(tag: String): SemanticVersion? {
-            return versionRegex.find(tag)?.groups?.let { groups ->
+        fun fromVersion(versionString: String): SemanticVersion? {
+            return versionRegex.find(versionString)?.groups?.let { groups ->
                 fun getCapture(index: Int) = groups[index]?.value?.toInt()
 
                 SemanticVersion(
                     major = getCapture(1) ?: return null,
                     minor = getCapture(2) ?: return null,
                     patch = getCapture(3) ?: return null,
-                    versionString = tag
+                    versionString = versionString
                 )
             }
         }

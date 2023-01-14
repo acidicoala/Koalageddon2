@@ -4,7 +4,7 @@ image::src/jvmMain/resources/images/icon.png[,256]
 
 == 🏗️ Development setup
 
-=== ✅ Requirements
+=== 🚦 Requirements
 
 * Java Development Kit (JDK)
 ** Minimum version: `11`. https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/windows-7-install.html[Download].
@@ -23,7 +23,7 @@ This command will write the build directory in the console output.
 === 🌐 Translation
 
 * User strings are defined in link:src/jvmMain/kotlin/acidicoala/koalageddon/core/values/Strings.kt[Strings.kt]
-* Languages are defined in link:src/jvmMain/kotlin/acidicoala/koalageddon/settings/domain/model/Settings.kt[Settings.kt]
+* Languages are defined in link:src/jvmMain/kotlin/acidicoala/koalageddon/core/model/Settings.kt[Settings.kt]
 
 == 📄 License
 

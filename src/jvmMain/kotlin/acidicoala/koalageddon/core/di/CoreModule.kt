@@ -24,5 +24,6 @@ val coreModule = DI.Module(name = "Core") {
     bindProvider { OpenDirectoryInExplorer(di) }
     bindProvider { GetInstallationChecklist(di) }
     bindProvider { ModifyInstallationStatus(di) }
-    bindProvider { DownloadFile(di) }
+    bindProvider { DownloadAndCacheKoalaTool(di) }
+    bindProvider { UnzipToolDll(di) }
 }

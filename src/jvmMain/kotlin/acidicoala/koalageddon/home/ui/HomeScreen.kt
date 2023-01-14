@@ -104,7 +104,9 @@ fun HomeScreen() {
             }
         },
         snackbarHost = {
-            SnackbarHost(snackbarState, modifier = Modifier.widthIn(max = DefaultMaxWidth))
+            Box(contentAlignment = Alignment.BottomEnd, modifier = Modifier.fillMaxWidth()) {
+                SnackbarHost(snackbarState, modifier = Modifier.widthIn(max = DefaultMaxWidth))
+            }
         },
     )
 }

@@ -2,6 +2,7 @@ package acidicoala.koalageddon.core.ui.composable
 
 import acidicoala.koalageddon.core.model.InstallationChecklist
 import acidicoala.koalageddon.core.model.InstallationStatus
+import acidicoala.koalageddon.core.model.Store
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
@@ -13,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun InstallationStatusOption(checklist: InstallationChecklist) {
+fun InstallationStatusOption(checklist: InstallationChecklist, store: Store) {
     val strings = LocalStrings.current
     val dialogOpenState = rememberChecklistOpenState()
     val installationStatus = checklist.installationStatus
@@ -37,7 +38,8 @@ fun InstallationStatusOption(checklist: InstallationChecklist) {
 
             InstallationChecklistDropdown(
                 openState = dialogOpenState,
-                checklist = checklist
+                checklist = checklist,
+                store = store
             )
         }
     }
