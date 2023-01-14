@@ -10,7 +10,7 @@ data class InstallationChecklist(
     private val allValues = listOf(koaloaderDll, koaloaderConfig, unlockerDll, unlockerConfig)
 
     val installationStatus = when {
-        allValues.all { it == true } -> InstallationStatus.Installed
+        allValues.all { it == true } -> InstallationStatus.Installed(unlockerVersion ?: "")
         else -> InstallationStatus.NotInstalled
     }
 }

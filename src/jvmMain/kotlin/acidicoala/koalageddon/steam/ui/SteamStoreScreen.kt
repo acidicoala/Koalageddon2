@@ -64,14 +64,16 @@ fun SteamStoreScreen() {
             )
 
             ButtonOption(
-                enabled = state.installProgressMessage == null,
+                enabled = state.installProgressMessage == null && state.installationChecklist != null,
                 label = strings.modifyInstallation,
-                buttonIcon = when (state.installationChecklist.installationStatus) {
-                    InstallationStatus.Installed -> Icons.Default.Delete
+                buttonIcon = when (state.installationChecklist?.installationStatus) {
+                    null -> InstallationStatus.Updating.icon
+                    is InstallationStatus.Installed -> Icons.Default.Delete
                     else -> Icons.Default.InstallDesktop
                 },
-                buttonLabel = when (state.installationChecklist.installationStatus) {
-                    InstallationStatus.Installed -> strings.uninstall
+                buttonLabel = when (state.installationChecklist?.installationStatus) {
+                    null -> strings.updating
+                    is InstallationStatus.Installed -> strings.uninstall
                     else -> strings.install
                 },
                 onClick = screenModel::onModifyInstallation

@@ -1,20 +1,26 @@
 package acidicoala.koalageddon.core.model
 
 import acidicoala.koalageddon.core.io.appJson
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.json.encodeToStream
 import java.nio.file.Path
+import kotlin.io.path.inputStream
+import kotlin.io.path.outputStream
 
+@OptIn(ExperimentalSerializationApi::class)
 sealed class KoalaTool(val name: String, val originalName: String, val majorVersion: Int) {
-    val dllName = "$name.dll"
     val configName = "$name.config.json"
     val gitHubReleaseUrl = "https://api.github.com/repos/acidicoala/$name/releases"
 
     interface IConfig
 
     abstract fun parseConfig(path: Path): IConfig
+
+    abstract fun writeDefaultConfig(path: Path)
 
     object Koaloader : KoalaTool(name = "Koaloader", originalName = "version", majorVersion = 3) {
         @Serializable
@@ -33,8 +39,9 @@ sealed class KoalaTool(val name: String, val originalName: String, val majorVers
             val modules: List<Module> = listOf(),
         ) : IConfig
 
-        override fun parseConfig(path: Path) = appJson.decodeFromString<Config>(path.toFile().readText())
+        override fun parseConfig(path: Path) = appJson.decodeFromStream<Config>(path.inputStream())
 
+        override fun writeDefaultConfig(path: Path) = appJson.encodeToStream(Config(), path.outputStream())
     }
 
     object SmokeAPI : KoalaTool(name = "SmokeAPI", originalName = "steam_api", majorVersion = 2) {
@@ -78,6 +85,8 @@ sealed class KoalaTool(val name: String, val originalName: String, val majorVers
             val storeConfig: JsonObject? = null,
         ) : IConfig
 
-        override fun parseConfig(path: Path) = appJson.decodeFromString<Config>(path.toFile().readText())
+        override fun parseConfig(path: Path) = appJson.decodeFromStream<Config>(path.inputStream())
+
+        override fun writeDefaultConfig(path: Path) = appJson.encodeToStream(Config(), path.outputStream())
     }
 }

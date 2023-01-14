@@ -26,7 +26,7 @@ class SteamScreenModel(
 ) : DIAware, StateFlow<SteamScreenModel.State> by stateFlow {
     data class State(
         val installProgressMessage: ILangString? = null,
-        val installationChecklist: InstallationChecklist = InstallationChecklist()
+        val installationChecklist: InstallationChecklist? = null
     )
 
     private val logger: AppLogger by instance()
@@ -40,12 +40,12 @@ class SteamScreenModel(
 
     fun onRefreshStatus() {
         scope.launch {
-            val checklist = getInstallationChecklist(
-                store = Store.Steam,
-            )
+            stateFlow.update {
+                it.copy(installationChecklist = null)
+            }
 
             stateFlow.update {
-                it.copy(installationChecklist = checklist)
+                it.copy(installationChecklist = getInstallationChecklist(store = Store.Steam))
             }
         }
     }
@@ -60,25 +60,27 @@ class SteamScreenModel(
 
     fun onModifyInstallation() {
         scope.launch {
-            try {
-                modifyInstallationStatus(
-                    store = Store.Steam, currentStatus = value.installationChecklist.installationStatus
-                ).collect { langString ->
-                    stateFlow.update {
-                        it.copy(installProgressMessage = langString)
+            value.installationChecklist?.installationStatus?.let { currentStatus ->
+                try {
+                    modifyInstallationStatus(
+                        store = Store.Steam, currentStatus = currentStatus
+                    ).collect { langString ->
+                        stateFlow.update {
+                            it.copy(installProgressMessage = langString)
+                        }
                     }
-                }
 
-                showSnackbar(message = LangString { installationSuccess })
-            } catch (e: Exception) {
-                logger.error(e, "Error modifying installation status")
-                showSnackbar(message = LangString { installationError })
-            } finally {
-                stateFlow.update {
-                    it.copy(installProgressMessage = null)
-                }
+                    showSnackbar(message = LangString { installationSuccess })
+                } catch (e: Exception) {
+                    logger.error(e, "Error modifying installation status")
+                    showSnackbar(message = LangString { installationError })
+                } finally {
+                    stateFlow.update {
+                        it.copy(installProgressMessage = null)
+                    }
 
-                onRefreshStatus()
+                    onRefreshStatus()
+                }
             }
         }
     }

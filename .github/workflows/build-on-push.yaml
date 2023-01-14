@@ -25,6 +25,7 @@ jobs:
           cache-disabled: true # TODO: Remove this once repo is public
 
       - name: 📤 Upload build artifacts
+        if: ${{ false }} # TODO: Remove this once repo is public
         uses: actions/upload-artifact@v3
         with:
           name: app

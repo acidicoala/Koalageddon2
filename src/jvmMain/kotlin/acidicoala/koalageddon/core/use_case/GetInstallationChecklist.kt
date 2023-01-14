@@ -153,7 +153,7 @@ class GetInstallationChecklist(override val di: DI) : DIAware {
 
         val unlockerPath = config.modules
             .map { Path(it.path).let { path -> if (path.isAbsolute) path else store.directory / path } }
-            .find { path -> path.fileName.toString().equals(store.unlocker.dllName, ignoreCase = true) }
+            .find { path -> path.fileName.toString().startsWith(store.unlocker.name, ignoreCase = true) }
             ?: return Result.failure(Exception("Koaloader config module is misconfigured"))
 
         return Result.success(unlockerPath)

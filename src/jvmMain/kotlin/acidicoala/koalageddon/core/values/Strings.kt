@@ -35,6 +35,7 @@ sealed class Strings(
     val toolConfig: String,
     val toolDll: String = "%0 DLL",
     val uninstall: String,
+    val updating: String,
     val version: String,
 ) {
     object English : Strings(
@@ -50,7 +51,7 @@ sealed class Strings(
         installationError = "❌ Installation error",
         installationStatus = "Installation status",
         installationSuccess = "✅ Installation was successful",
-        installed = "Installed",
+        installed = "Installed %0",
         language = "Language",
         modifyInstallation = "Modify installation",
         openDataDirectory = "Open data directory",
@@ -66,6 +67,7 @@ sealed class Strings(
         themeLight = "Light",
         toolConfig = "%0 config",
         uninstall = "Uninstall",
+        updating = "Updating",
         version = "Version v${BuildConfig.APP_VERSION}",
     )
 
@@ -82,7 +84,7 @@ sealed class Strings(
         installationError = "❌ Ошибка установки",
         installationStatus = "Статус установки",
         installationSuccess = "✅ Установка прошла успешно",
-        installed = "Установлено",
+        installed = "Установлено %0",
         language = "Язык",
         modifyInstallation = "Изменить установку",
         openDataDirectory = "Открыть директорию данных",
@@ -98,6 +100,7 @@ sealed class Strings(
         themeLight = "Светлая",
         toolConfig = "Конфигурация %0",
         uninstall = "Удалить",
+        updating = "Обновляется",
         version = "Версия v${BuildConfig.APP_VERSION}",
     )
 }
