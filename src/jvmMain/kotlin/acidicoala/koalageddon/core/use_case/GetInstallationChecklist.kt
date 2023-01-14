@@ -1,4 +1,4 @@
-package acidicoala.koalageddon.steam.domain.use_case
+package acidicoala.koalageddon.core.use_case
 
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.ISA
@@ -54,23 +54,31 @@ class GetInstallationChecklist(override val di: DI) : DIAware {
                 }
             }
 
-            val loaderConfigResult = checkLoaderConfig(store)
-            val unlockerPath = when {
-                loaderConfigResult.isSuccess -> {
-                    checklist = checklist.copy(loaderConfig = true)
-                    loaderConfigResult.getOrThrow()
-                }
-                else -> {
-                    logger.debug(loaderConfigResult.exceptionOrNull()?.message ?: "Unknown loader config error")
-                    return checklist.copy(loaderConfig = false)
+            val unlockerPath = checkLoaderConfig(store).let { result ->
+                when {
+                    result.isSuccess -> {
+                        checklist = checklist.copy(loaderConfig = true)
+                        result.getOrThrow()
+                    }
+                    else -> {
+                        logger.debug(result.exceptionOrNull()?.message ?: "Unknown loader config error")
+                        return checklist.copy(loaderConfig = false)
+                    }
                 }
             }
 
-            checkUnlockerDll(store, unlockerPath).let { unlockerDll ->
-                checklist = checklist.copy(unlockerDll = unlockerDll)
-
-                if (!unlockerDll) {
-                    return checklist
+            checkUnlockerDll(store, unlockerPath).let { result ->
+                when {
+                    result.isSuccess -> {
+                        checklist = checklist.copy(
+                            unlockerDll = true,
+                            unlockerVersion = result.getOrThrow()
+                        )
+                    }
+                    else -> {
+                        logger.debug(result.exceptionOrNull()?.message ?: "Unknown unlocker dll error")
+                        return checklist.copy(unlockerDll = false)
+                    }
                 }
             }
 
@@ -89,7 +97,6 @@ class GetInstallationChecklist(override val di: DI) : DIAware {
         }
     }
 
-
     private fun checkLoaderDll(store: Store): Boolean = store.path.toFile().listFiles()
         ?.filter { it.extension.equals("dll", ignoreCase = true) }
         ?.any { file ->
@@ -100,51 +107,32 @@ class GetInstallationChecklist(override val di: DI) : DIAware {
                     return@any false
                 }
 
-                when (val bufferSize = GetFileVersionInfoSize(file.absolutePath, null)) {
-                    0 -> {
-                        false
-                    }
+                val productNameResult = getFileInfoString(file.absolutePath, "ProductName")
+                val productName = when {
+                    productNameResult.isSuccess -> productNameResult.getOrThrow()
                     else -> {
-                        val buffer = Memory(bufferSize.toLong())
-
-                        if (!GetFileVersionInfo(file.absolutePath, 0, bufferSize, buffer)) {
-                            return@any false
-                        }
-
-                        val productNamePointer = PointerByReference()
-                        val productNameSize = IntByReference()
-
-                        if (
-                            !VerQueryValue(
-                                buffer,
-                                """\StringFileInfo\040904E4\ProductName""",
-                                productNamePointer,
-                                productNameSize
-                            )
-                        ) {
-                            return@any false
-                        }
-
-                        val productName = productNamePointer.value.getWideString(0)
-
-                        val isKoaloader = productName.equals("Koaloader", ignoreCase = false)
-
-                        if (!isKoaloader) {
-                            return@any false
-                        }
-
-                        if (file.name.equals("version.dll", ignoreCase = true)) {
-                            logger.debug("""Found Koaloader DLL at "${file.absolutePath}"""")
-                            return@any true
-                        } else {
-                            logger.debug(
-                                """Found unexpected Koaloader DLL at "${file.absolutePath}". """ +
-                                        "Please consider deleting it manually because " +
-                                        "it might interfere with Koalageddon integration"
-                            )
-                            return@any false
-                        }
+                        val message = productNameResult.exceptionOrNull()?.message
+                        logger.debug("Error getting product name from loader dll: $message")
+                        return@any false
                     }
+                }
+
+                val isKoaloader = productName.equals("Koaloader", ignoreCase = false)
+
+                if (!isKoaloader) {
+                    return@any false
+                }
+
+                if (file.name.equals("version.dll", ignoreCase = true)) {
+                    logger.debug("""Found Koaloader DLL at "${file.absolutePath}"""")
+                    return@any true
+                } else {
+                    logger.debug(
+                        """Found unexpected Koaloader DLL at "${file.absolutePath}". """ +
+                                "Please consider deleting it manually because " +
+                                "it might interfere with Koalageddon integration"
+                    )
+                    return@any false
                 }
             }
         } ?: false
@@ -185,21 +173,22 @@ class GetInstallationChecklist(override val di: DI) : DIAware {
         return Result.success(unlockerPath)
     }
 
-    private fun checkUnlockerDll(store: Store, unlockerPath: Path): Boolean {
+    /**
+     * @return Unlocker version encoded in DLL
+     */
+    private fun checkUnlockerDll(store: Store, unlockerPath: Path): Result<String> {
         if (!unlockerPath.exists()) {
-            logger.debug("""Unlocker DLL not found at "$unlockerPath"""")
-            return false
+            return Result.failure(Exception("""Unlocker DLL not found at "$unlockerPath""""))
         }
 
         logger.debug("""Unlocker DLL found at "$unlockerPath"""")
 
         val pe = PE(unlockerPath.toString())
         if (!pe.matches(store.isa)) {
-            logger.debug("Found Unlocker DLL with incompatible architecture")
-            return false
+            return Result.failure(Exception("Found Unlocker DLL with incompatible architecture"))
         }
 
-        return true
+        return getFileInfoString(unlockerPath.toString(), "ProductVersion")
     }
 
     private fun checkUnlockerConfig(store: Store, unlockerPath: Path): Boolean {
@@ -232,6 +221,43 @@ class GetInstallationChecklist(override val di: DI) : DIAware {
         return when (isa) {
             ISA.X86 -> magicNumber == MagicNumberType.PE32
             ISA.X86_64 -> magicNumber != MagicNumberType.PE32
+        }
+    }
+
+    private fun getFileInfoString(path: String, key: String): Result<String> {
+        Version.INSTANCE.apply {
+            when (val bufferSize = GetFileVersionInfoSize(path, null)) {
+                0 -> {
+                    return Result.failure(Exception("GetFileVersionInfoSize returned 0"))
+                }
+                else -> {
+                    val buffer = Memory(bufferSize.toLong())
+
+                    if (!GetFileVersionInfo(path, 0, bufferSize, buffer)) {
+                        return Result.failure(Exception("GetFileVersionInfo returned false"))
+                    }
+
+                    val stringPointer = PointerByReference()
+                    val stringSize = IntByReference()
+
+                    if (
+                        !VerQueryValue(
+                            buffer,
+                            """\StringFileInfo\040904E4\$key""",
+                            stringPointer,
+                            stringSize
+                        )
+                    ) {
+                        return Result.failure(Exception("VerQueryValue returned false"))
+                    }
+
+                    return try {
+                        Result.success(stringPointer.value.getWideString(0))
+                    } catch (e: Exception) {
+                        Result.failure(Exception("Failed to get key $key from string pointer", e))
+                    }
+                }
+            }
         }
     }
 

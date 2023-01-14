@@ -41,7 +41,7 @@ fun SteamStoreScreen() {
             )
 
             InstallationStatusOption(
-                installationChecklist = state.installationChecklist
+                checklist = state.installationChecklist
             )
 
             ButtonOption(

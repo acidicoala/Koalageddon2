@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun InstallationStatusOption(installationChecklist: InstallationChecklist) {
+fun InstallationStatusOption(checklist: InstallationChecklist) {
     val strings = LocalStrings.current
     val dialogOpenState = rememberChecklistOpenState()
-    val installationStatus = installationChecklist.installationStatus
+    val installationStatus = checklist.installationStatus
 
     ControlOption(strings.installationStatus) {
         OutlinedButton(onClick = { dialogOpenState.onOpenChanged(true) }) {
@@ -32,13 +32,13 @@ fun InstallationStatusOption(installationChecklist: InstallationChecklist) {
             Text(
                 text = when (installationStatus) {
                     InstallationStatus.NotInstalled -> strings.notInstalled
-                    InstallationStatus.Installed -> strings.installed
+                    InstallationStatus.Installed -> "${strings.installed} v${checklist.unlockerVersion}"
                 }
             )
 
-            InstallationChecklistPopup(
+            InstallationChecklistDropdown(
                 openState = dialogOpenState,
-                checklist = installationChecklist
+                checklist = checklist
             )
         }
     }

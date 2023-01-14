@@ -27,7 +27,7 @@ class ChecklistOpenState {
 fun rememberChecklistOpenState() = remember { ChecklistOpenState() }
 
 @Composable
-fun InstallationChecklistPopup(openState: ChecklistOpenState, checklist: InstallationChecklist) {
+fun InstallationChecklistDropdown(openState: ChecklistOpenState, checklist: InstallationChecklist) {
     if (!openState.open.value) {
         return
     }

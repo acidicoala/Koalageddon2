@@ -5,6 +5,7 @@ data class InstallationChecklist(
     val loaderConfig: Boolean? = null,
     val unlockerDll: Boolean? = null,
     val unlockerConfig: Boolean? = null,
+    val unlockerVersion: String? = null,
 ) {
     private val allValues = listOf(loaderDll, loaderConfig, unlockerDll, unlockerConfig)
 

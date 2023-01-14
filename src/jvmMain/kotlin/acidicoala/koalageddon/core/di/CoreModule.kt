@@ -3,9 +3,7 @@ package acidicoala.koalageddon.core.di
 import acidicoala.koalageddon.core.event.CoreEvent
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.AppPaths
-import acidicoala.koalageddon.core.use_case.OpenDirectoryInExplorer
-import acidicoala.koalageddon.core.use_case.SendPipeRequest
-import acidicoala.koalageddon.core.use_case.ShowSnackbar
+import acidicoala.koalageddon.core.use_case.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.kodein.di.DI
 import org.kodein.di.bindEagerSingleton
@@ -21,4 +19,6 @@ val coreModule = DI.Module(name = "Core") {
     bindProvider { ShowSnackbar(di) }
     bindProvider { SendPipeRequest(di) }
     bindProvider { OpenDirectoryInExplorer(di) }
+    bindProvider { GetInstallationChecklist(di) }
+    bindProvider { ModifyInstallationStatus(di) }
 }

@@ -2,7 +2,8 @@ package acidicoala.koalageddon.steam.ui
 
 import acidicoala.koalageddon.core.model.InstallationChecklist
 import acidicoala.koalageddon.core.model.Store
-import acidicoala.koalageddon.steam.domain.use_case.GetInstallationChecklist
+import acidicoala.koalageddon.core.use_case.GetInstallationChecklist
+import acidicoala.koalageddon.core.use_case.ModifyInstallationStatus
 import acidicoala.koalageddon.steam.domain.use_case.ReloadSteamConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +29,7 @@ class SteamScreenModel(
 
     private val reloadSteamConfig: ReloadSteamConfig by instance()
     private val getInstallationChecklist: GetInstallationChecklist by instance()
+    private val modifyInstallationStatus: ModifyInstallationStatus by instance()
 
     private val scope = CoroutineScope(Dispatchers.IO)
     private val mutex = Mutex()
@@ -58,7 +60,10 @@ class SteamScreenModel(
     }
 
     fun onModifyInstallation() {
-
+        modifyInstallationStatus(
+            store = Store.Steam,
+            currentStatus = value.installationChecklist.installationStatus
+        )
     }
 
 }
