@@ -58,6 +58,9 @@ kotlin {
                 val tinylogVersion = "2.5.0"
                 implementation("org.tinylog:tinylog-impl:$tinylogVersion")
                 implementation("org.tinylog:slf4j-tinylog:$tinylogVersion")
+
+                // https://github.com/dorkbox/PeParser
+                implementation("com.dorkbox:PeParser:3.1")
             }
         }
 

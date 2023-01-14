@@ -1,4 +1,4 @@
-name: CI
+name: Build on push
 on: [ push ]
 jobs:
   build:
@@ -26,5 +26,5 @@ jobs:
       - name: 📤 Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: app
           path: build/compose/binaries/main/app

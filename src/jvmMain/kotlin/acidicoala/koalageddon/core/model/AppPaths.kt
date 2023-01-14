@@ -14,5 +14,6 @@ class AppPaths {
     }
 
     val settings = data / "Koalageddon.settings.json"
+
     val log = data / "Koalageddon.log.log"
 }

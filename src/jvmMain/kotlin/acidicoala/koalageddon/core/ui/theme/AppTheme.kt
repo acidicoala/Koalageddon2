@@ -10,6 +10,7 @@ object AppTheme {
         val DarkGreen = Color(0xFF003000)
         val DarkGray = Color(0xFF202020)
         val LightGray = Color(0xFFE8E8E8)
+        val Orange = Color(0xFFFF8000)
     }
 
     object Material {
@@ -20,7 +21,6 @@ object AppTheme {
         )
         val lightColors = lightColors(
             primary = AppColors.Green,
-            onPrimary = AppColors.DarkGreen,
             background = AppColors.LightGray,
             surface = AppColors.LightGray,
         )

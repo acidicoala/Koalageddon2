@@ -35,8 +35,7 @@ class SettingsScreenModel(override val di: DI) : DIAware {
 
     fun onCheckForUpdates() {
         scope.launch {
-            // TODO
-            showSnackbar(TextString { "NOT IMPLEMENTED" })
+            showSnackbar(TextString { "NOT IMPLEMENTED" }) // TODO
         }
     }
 

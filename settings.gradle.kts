@@ -1,3 +1,5 @@
+rootProject.name = "koalageddon"
+
 pluginManagement {
     repositories {
         google()
@@ -15,6 +17,3 @@ pluginManagement {
         id("org.jetbrains.compose").version(composeVersion)
     }
 }
-
-rootProject.name = "koalageddon"
-
