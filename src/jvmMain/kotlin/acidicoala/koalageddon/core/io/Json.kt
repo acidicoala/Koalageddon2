@@ -1,12 +1,13 @@
-package acidicoala.koalageddon.core.serialization
+package acidicoala.koalageddon.core.io
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 
 @OptIn(ExperimentalSerializationApi::class)
-val json = Json {
+val appJson = Json {
     encodeDefaults = true
     prettyPrint = true
     coerceInputValues = true
+    ignoreUnknownKeys = true
     prettyPrintIndent = "  "
 }

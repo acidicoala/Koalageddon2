@@ -1,9 +1,9 @@
 package acidicoala.koalageddon.steam.ui
 
-import androidx.compose.material.Text
+import acidicoala.koalageddon.core.ui.composable.DevelopmentPlaceholder
 import androidx.compose.runtime.Composable
 
 @Composable
 fun SteamGameScreen() {
-    Text("Steam Game Screen")
+    DevelopmentPlaceholder()
 }

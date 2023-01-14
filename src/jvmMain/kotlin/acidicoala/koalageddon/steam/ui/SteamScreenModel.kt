@@ -1,5 +1,6 @@
 package acidicoala.koalageddon.steam.ui
 
+import acidicoala.koalageddon.core.model.ILangString
 import acidicoala.koalageddon.core.model.InstallationChecklist
 import acidicoala.koalageddon.core.model.Store
 import acidicoala.koalageddon.core.use_case.GetInstallationChecklist
@@ -7,7 +8,6 @@ import acidicoala.koalageddon.core.use_case.ModifyInstallationStatus
 import acidicoala.koalageddon.steam.domain.use_case.ReloadSteamConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -17,13 +17,13 @@ import kotlinx.coroutines.sync.withLock
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
-import kotlin.time.Duration.Companion.seconds
 
 class SteamScreenModel(
     override val di: DI,
     private val stateFlow: MutableStateFlow<State> = MutableStateFlow(State())
 ) : DIAware, StateFlow<SteamScreenModel.State> by stateFlow {
     data class State(
+        val installProgressMessage: ILangString? = null,
         val installationChecklist: InstallationChecklist = InstallationChecklist()
     )
 
@@ -34,19 +34,14 @@ class SteamScreenModel(
     private val scope = CoroutineScope(Dispatchers.IO)
     private val mutex = Mutex()
 
-    init {
-        // Begin polling the installation status every second
+    fun onRefreshStatus() {
         scope.launch {
-            while (true) {
-                val checklist = getInstallationChecklist(
-                    store = Store.Steam,
-                )
+            val checklist = getInstallationChecklist(
+                store = Store.Steam,
+            )
 
-                stateFlow.update {
-                    it.copy(installationChecklist = checklist)
-                }
-
-                delay(1.seconds)
+            stateFlow.update {
+                it.copy(installationChecklist = checklist)
             }
         }
     }
@@ -60,10 +55,19 @@ class SteamScreenModel(
     }
 
     fun onModifyInstallation() {
-        modifyInstallationStatus(
-            store = Store.Steam,
-            currentStatus = value.installationChecklist.installationStatus
-        )
-    }
+        scope.launch {
+            modifyInstallationStatus(
+                store = Store.Steam,
+                currentStatus = value.installationChecklist.installationStatus
+            ).collect { langString ->
+                stateFlow.update {
+                    it.copy(installProgressMessage = langString)
+                }
+            }
 
+            stateFlow.update {
+                it.copy(installProgressMessage = null)
+            }
+        }
+    }
 }

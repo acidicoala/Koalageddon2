@@ -4,7 +4,7 @@ import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.ISA
 import acidicoala.koalageddon.core.model.InstallationChecklist
 import acidicoala.koalageddon.core.model.Store
-import acidicoala.koalageddon.core.serialization.json
+import acidicoala.koalageddon.core.io.appJson
 import com.sun.jna.Memory
 import com.sun.jna.platform.win32.Version
 import com.sun.jna.ptr.IntByReference
@@ -112,7 +112,7 @@ class GetInstallationChecklist(override val di: DI) : DIAware {
                     productNameResult.isSuccess -> productNameResult.getOrThrow()
                     else -> {
                         val message = productNameResult.exceptionOrNull()?.message
-                        logger.debug("Error getting product name from loader dll: $message")
+                        logger.debug("Error getting product name from dll '${file.name}': $message")
                         return@any false
                     }
                 }
@@ -148,7 +148,7 @@ class GetInstallationChecklist(override val di: DI) : DIAware {
         logger.debug("""Found Koalageddon config at "${configFile.absolutePath}"""")
 
         val config = try {
-            json.decodeFromString<KoaloaderConfig>(configFile.readText())
+            appJson.decodeFromString<KoaloaderConfig>(configFile.readText())
         } catch (e: Exception) {
             return Result.failure(Exception("Failed to parse Koaloader config", e))
         }

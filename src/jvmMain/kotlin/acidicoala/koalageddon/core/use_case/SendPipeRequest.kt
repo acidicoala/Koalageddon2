@@ -1,7 +1,7 @@
 package acidicoala.koalageddon.core.use_case
 
 import acidicoala.koalageddon.core.logging.AppLogger
-import acidicoala.koalageddon.core.serialization.json
+import acidicoala.koalageddon.core.io.appJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
@@ -40,7 +40,7 @@ class SendPipeRequest(override val di: DI) : DIAware {
         return withContext(Dispatchers.IO) {
             RandomAccessFile(pipeName, "rw").use { pipe ->
                 // write to pipe
-                val requestString = json.encodeToString(request)
+                val requestString = appJson.encodeToString(request)
                 logger.debug("Sending request to ipc pipe: '$pipeName'\n$requestString")
                 pipe.writeBytes(requestString)
 
@@ -55,7 +55,7 @@ class SendPipeRequest(override val di: DI) : DIAware {
                 )
                 logger.debug("Received response from ipc pipe: '$pipeName'\n$responseString")
 
-                json.decodeFromString(responseString)
+                appJson.decodeFromString(responseString)
             }
         }
     }

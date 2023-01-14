@@ -4,7 +4,7 @@ import acidicoala.koalageddon.core.event.CoreEvent
 import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.theme.DefaultIconSize
 import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
-import acidicoala.koalageddon.settings.domain.model.Settings
+import acidicoala.koalageddon.core.model.Settings
 import acidicoala.koalageddon.settings.domain.use_case.SaveSettings
 import acidicoala.koalageddon.settings.ui.SettingsScreen
 import acidicoala.koalageddon.steam.ui.SteamScreen

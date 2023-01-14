@@ -2,10 +2,10 @@ package acidicoala.koalageddon.settings.ui
 
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.AppPaths
-import acidicoala.koalageddon.core.model.TextString
+import acidicoala.koalageddon.core.model.LangString
 import acidicoala.koalageddon.core.use_case.OpenDirectoryInExplorer
 import acidicoala.koalageddon.core.use_case.ShowSnackbar
-import acidicoala.koalageddon.settings.domain.model.Settings
+import acidicoala.koalageddon.core.model.Settings
 import acidicoala.koalageddon.settings.domain.use_case.SaveSettings
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -35,11 +35,17 @@ class SettingsScreenModel(override val di: DI) : DIAware {
 
     fun onCheckForUpdates() {
         scope.launch {
-            showSnackbar(TextString { "NOT IMPLEMENTED" }) // TODO
+            showSnackbar(LangString { inDevelopment }) // TODO
         }
     }
 
     fun onOpenDataDirectory() {
         openDirectoryInExplorer(appPaths.data)
+    }
+
+    fun onClearCache() {
+        scope.launch {
+            showSnackbar(LangString { inDevelopment }) // TODO
+        }
     }
 }

@@ -22,9 +22,8 @@ fun InstallationStatusOption(checklist: InstallationChecklist) {
         OutlinedButton(onClick = { dialogOpenState.onOpenChanged(true) }) {
             Icon(
                 contentDescription = null,
-                modifier = Modifier.size(16.dp),
                 imageVector = installationStatus.icon,
-                tint = installationStatus.color,
+                tint = installationStatus.color(),
             )
 
             Spacer(Modifier.size(8.dp))

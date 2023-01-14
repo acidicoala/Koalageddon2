@@ -47,7 +47,7 @@ fun InstallationChecklistDropdown(openState: ChecklistOpenState, checklist: Inst
                             contentDescription = null,
                             modifier = Modifier.size(16.dp),
                             imageVector = InstallationStatus.fromBoolean(checked).icon,
-                            tint = InstallationStatus.fromBoolean(checked).color
+                            tint = InstallationStatus.fromBoolean(checked).color()
                         )
                     }
                 }

@@ -1,6 +1,6 @@
 package acidicoala.koalageddon.core.ui.composable
 
-import acidicoala.koalageddon.core.model.ITextString
+import acidicoala.koalageddon.core.model.ILangString
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.*
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun <T : ITextString> DropdownOption(label: String, items: Array<T>, selected: T, onSelect: (T) -> Unit) {
+fun <T : ILangString> DropdownOption(label: String, items: Array<T>, selected: T, onSelect: (T) -> Unit) {
     val strings = LocalStrings.current
 
     ControlOption(label) {

@@ -2,8 +2,8 @@ package acidicoala.koalageddon.settings.domain.use_case
 
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.AppPaths
-import acidicoala.koalageddon.core.serialization.json
-import acidicoala.koalageddon.settings.domain.model.Settings
+import acidicoala.koalageddon.core.io.appJson
+import acidicoala.koalageddon.core.model.Settings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -32,7 +32,7 @@ class SaveSettings(override val di: DI) : DIAware {
 
             val settingsStream = path.toFile().outputStream()
 
-            json.encodeToStream(newSettings, settingsStream)
+            appJson.encodeToStream(newSettings, settingsStream)
         }
 
         true

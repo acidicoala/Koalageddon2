@@ -2,8 +2,8 @@ package acidicoala.koalageddon.settings.domain.use_case
 
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.AppPaths
-import acidicoala.koalageddon.core.serialization.json
-import acidicoala.koalageddon.settings.domain.model.Settings
+import acidicoala.koalageddon.core.io.appJson
+import acidicoala.koalageddon.core.model.Settings
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
 import org.kodein.di.DI
@@ -24,7 +24,7 @@ class ReadSettings(override val di: DI) : DIAware {
 
             val settingsStream = path.toFile().inputStream()
 
-            json.decodeFromStream(settingsStream)
+            appJson.decodeFromStream(settingsStream)
         } else {
             logger.info("No settings found on disk. Using default settings")
 

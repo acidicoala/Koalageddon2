@@ -1,6 +1,6 @@
 package acidicoala.koalageddon.core.model
 
-import acidicoala.koalageddon.core.serialization.json
+import acidicoala.koalageddon.core.io.appJson
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -59,6 +59,6 @@ sealed class Unlocker(
             val storeConfig: JsonObject? = null,
         ) : IConfig
 
-        override fun parseConfig(path: Path) = json.decodeFromString<Config>(path.toFile().readText())
+        override fun parseConfig(path: Path) = appJson.decodeFromString<Config>(path.toFile().readText())
     }
 }

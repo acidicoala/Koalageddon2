@@ -9,11 +9,11 @@ import kotlin.io.path.div
 class AppPaths {
     val data = Path(
         AppDirsFactory.getInstance().getUserDataDir(BuildConfig.APP_NAME, "", BuildConfig.APP_AUTHOR)
-    ).apply {
-        createDirectories()
-    }
+    ).apply { createDirectories() }
 
     val settings = data / "Koalageddon.settings.json"
 
     val log = data / "Koalageddon.log.log"
+
+    val cache = (data / "cache").apply { createDirectories() }
 }

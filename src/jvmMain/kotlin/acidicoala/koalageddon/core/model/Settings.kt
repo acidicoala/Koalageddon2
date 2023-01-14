@@ -1,6 +1,5 @@
-package acidicoala.koalageddon.settings.domain.model
+package acidicoala.koalageddon.core.model
 
-import acidicoala.koalageddon.core.model.ITextString
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.values.Bitmaps
 import acidicoala.koalageddon.core.values.Strings
@@ -17,7 +16,7 @@ data class Settings constructor(
     val lastHomeTab: HomeTab = HomeTab.Settings,
 ) {
     @Serializable
-    enum class Theme : ITextString {
+    enum class Theme : ILangString {
         Dark {
             override fun text(strings: Strings) = strings.themeDark
         },
@@ -27,7 +26,7 @@ data class Settings constructor(
     }
 
     @Serializable
-    enum class Language : ITextString {
+    enum class Language : ILangString {
         English {
             override fun text(strings: Strings) = strings.languageEn
         },
@@ -38,8 +37,8 @@ data class Settings constructor(
 
     @Transient
     val strings = when (language) {
-        Settings.Language.English -> Strings.English
-        Settings.Language.Russian -> Strings.Russian
+        Language.English -> Strings.English
+        Language.Russian -> Strings.Russian
     }
 
     @Serializable

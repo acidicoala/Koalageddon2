@@ -4,8 +4,12 @@ import acidicoala.koalageddon.BuildConfig
 
 sealed class Strings(
     val checkForUpdates: String,
+    val clearCache: String,
     val configuration: String,
+    val downloadingLoaderRelease: String,
+    val fetchingLoaderInfo: String,
     val gameMode: String,
+    val inDevelopment: String,
     val install: String,
     val installation: String,
     val installationStatus: String,
@@ -18,6 +22,7 @@ sealed class Strings(
     val modifyInstallation: String,
     val openDataDirectory: String,
     val notInstalled: String,
+    val refreshStatus: String,
     val reloadConfig: String,
     val reloadConfigSuccess: String,
     val reloadConfigError: String,
@@ -34,8 +39,12 @@ sealed class Strings(
 ) {
     object English : Strings(
         checkForUpdates = "Check for updates",
+        clearCache = "Clear cache",
         configuration = "Configuration",
+        downloadingLoaderRelease = "Downloading loader release: %1 out of %2",
+        fetchingLoaderInfo = "Fetching loader info",
         gameMode = "Game mode",
+        inDevelopment = "In development",
         install = "Install",
         installation = "Installation",
         installationStatus = "Installation status",
@@ -46,6 +55,7 @@ sealed class Strings(
         modifyInstallation = "Modify installation",
         openDataDirectory = "Open data directory",
         notInstalled = "Not installed",
+        refreshStatus = "Refresh status",
         reloadConfig = "Reload configuration",
         reloadConfigSuccess = "✅ Configuration was successfully reloaded",
         reloadConfigError = "❌ Error reloading configuration",
@@ -62,8 +72,12 @@ sealed class Strings(
 
     object Russian : Strings(
         checkForUpdates = "Проверить обновления",
+        clearCache = "Очистить кэш",
         configuration = "Конфигурация",
+        downloadingLoaderRelease = "Скачивается релиз загрузчика: %1 из %2",
+        fetchingLoaderInfo = "Получение данных загрузчика",
         gameMode = "Режим игры",
+        inDevelopment = "В разработке",
         install = "Установить",
         installation = "Установка",
         installationStatus = "Статус установки",
@@ -74,6 +88,7 @@ sealed class Strings(
         modifyInstallation = "Изменить установку",
         openDataDirectory = "Открыть директорию данных",
         notInstalled = "Не установлено",
+        refreshStatus = "Обновить статус",
         reloadConfig = "Перезагрузить конфигурацию",
         reloadConfigSuccess = "✅ Конфигурация успешно перезагружена",
         reloadConfigError = "❌ Ошибка перезагруки конфигурации",

@@ -8,7 +8,7 @@ import acidicoala.koalageddon.core.ui.theme.AppTheme
 import acidicoala.koalageddon.core.values.Bitmaps
 import acidicoala.koalageddon.home.ui.HomeScreen
 import acidicoala.koalageddon.settings.di.settingsModule
-import acidicoala.koalageddon.settings.domain.model.Settings
+import acidicoala.koalageddon.core.model.Settings
 import acidicoala.koalageddon.steam.di.steamModule
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ripple.LocalRippleTheme

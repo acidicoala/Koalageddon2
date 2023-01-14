@@ -1,8 +1,8 @@
 package acidicoala.koalageddon.core.use_case
 
 import acidicoala.koalageddon.core.event.CoreEvent
-import acidicoala.koalageddon.core.model.ITextString
-import acidicoala.koalageddon.settings.domain.model.Settings
+import acidicoala.koalageddon.core.model.ILangString
+import acidicoala.koalageddon.core.model.Settings
 import androidx.compose.material.SnackbarDuration
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +15,7 @@ class ShowSnackbar(override val di: DI) : DIAware {
     private val settingsFlow: MutableStateFlow<Settings> by instance()
 
     suspend operator fun invoke(
-        message: ITextString,
+        message: ILangString,
         actionLabel: String? = null,
         duration: SnackbarDuration = SnackbarDuration.Short
     ) {

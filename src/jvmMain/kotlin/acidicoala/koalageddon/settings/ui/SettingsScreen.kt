@@ -7,13 +7,15 @@ import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
 import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
-import acidicoala.koalageddon.settings.domain.model.Settings
+import acidicoala.koalageddon.core.model.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
@@ -32,6 +34,12 @@ fun SettingsScreen() {
                 .widthIn(max = DefaultMaxWidth)
                 .padding(DefaultContentPadding),
         ) {
+            ButtonOption(
+                label = strings.version,
+                buttonLabel = strings.checkForUpdates,
+                onClick = screenModel::onCheckForUpdates
+            )
+
             DropdownOption(
                 label = strings.theme,
                 items = Settings.Theme.values(),
@@ -46,16 +54,18 @@ fun SettingsScreen() {
                 onSelect = screenModel::onLanguageChanged
             )
 
-            ButtonOption(
-                label = strings.version,
-                buttonLabel = strings.checkForUpdates,
-                onClick = screenModel::onCheckForUpdates
-            )
+            Divider(Modifier.padding(vertical = 8.dp))
 
             ButtonOption(
                 label = "",
                 buttonLabel = strings.openDataDirectory,
                 onClick = screenModel::onOpenDataDirectory
+            )
+
+            ButtonOption(
+                label = "Cache size: xyz MB", // TODO
+                buttonLabel = strings.clearCache,
+                onClick = screenModel::onClearCache
             )
         }
     }

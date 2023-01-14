@@ -61,6 +61,13 @@ kotlin {
 
                 // https://github.com/dorkbox/PeParser
                 implementation("com.dorkbox:PeParser:3.1")
+
+                // https://github.com/ktorio/ktor
+                val ktorVersion = "2.2.2"
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
             }
         }
 
