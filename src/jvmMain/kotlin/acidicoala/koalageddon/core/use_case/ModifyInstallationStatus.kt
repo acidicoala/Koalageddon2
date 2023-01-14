@@ -37,10 +37,11 @@ class ModifyInstallationStatus(override val di: DI) : DIAware {
         downloadAndCacheKoalaTool(koaloader).collect(::send) // Forward events upwards
         downloadAndCacheKoalaTool(unlocker).collect(::send)
 
+        val koaloaderDestination = store.directory / "${koaloader.originalName}.dll"
         unzipToolDll(
             tool = koaloader,
             entry = "${koaloader.originalName}-${store.isa.bitness}/${koaloader.originalName}.dll",
-            destination = store.directory / "${koaloader.originalName}.dll",
+            destination = koaloaderDestination,
         )
 
         val koaloaderConfig = KoalaTool.Koaloader.Config(
@@ -65,7 +66,12 @@ class ModifyInstallationStatus(override val di: DI) : DIAware {
         unlocker.writeDefaultConfig(path = unlockerDirectory / unlocker.configName)
     }
 
-    private suspend fun uninstall(store: Store) = channelFlow<ILangString> {
+    private fun uninstall(store: Store) = channelFlow<ILangString> {
+        val koaloader = KoalaTool.Koaloader
+        val koaloaderConfigPath = store.directory / koaloader.configName
+        koaloaderConfigPath.deleteIfExists()
 
+        val koaloaderDllPath = store.directory / "${koaloader.originalName}.dll"
+        koaloaderDllPath.deleteIfExists()
     }
 }
