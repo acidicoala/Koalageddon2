@@ -19,11 +19,13 @@ object AppTheme {
             primary = AppColors.GreenLight,
             onPrimary = AppColors.GreenDark,
             background = AppColors.DarkGray,
+            secondaryVariant = AppColors.GreenLight,
         )
         val lightColors = lightColors(
             primary = AppColors.Green,
             background = AppColors.LightGray,
             surface = AppColors.LightGray,
+            secondaryVariant = AppColors.Green,
         )
     }
 }

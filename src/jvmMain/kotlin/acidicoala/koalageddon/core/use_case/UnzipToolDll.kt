@@ -23,7 +23,7 @@ class UnzipToolDll(override val di: DI) : DIAware {
      */
     suspend operator fun invoke(tool: KoalaTool, entry: String, destination: Path) {
         withContext(Dispatchers.IO) {
-            val zipFile = paths.cache.toFile()
+            val zipFile = paths.cacheDir.toFile()
                 .listFiles(FileFilter { it.extension.equals("zip", ignoreCase = true) })
                 ?.filter { it.name.startsWith(tool.name, ignoreCase = true) }
                 ?.mapNotNull { file -> SemanticVersion.fromVersion(file.name)?.let { version -> file to version } }

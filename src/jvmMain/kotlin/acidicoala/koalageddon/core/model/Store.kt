@@ -14,6 +14,7 @@ sealed class Store(val directory: Path, val executable: String, val isa: ISA, va
     )
 
     companion object {
+        // TODO: Error checking
         private fun getRegistryValue(key: String, value: String) =
             Advapi32Util.registryGetStringValue(WinReg.HKEY_CURRENT_USER, key, value)
     }

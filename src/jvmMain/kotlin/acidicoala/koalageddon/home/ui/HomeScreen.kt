@@ -5,6 +5,7 @@ import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.theme.DefaultIconSize
 import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
 import acidicoala.koalageddon.core.model.Settings
+import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.settings.domain.use_case.SaveSettings
 import acidicoala.koalageddon.settings.ui.SettingsScreen
 import acidicoala.koalageddon.steam.ui.SteamScreen
@@ -30,12 +31,14 @@ fun HomeScreen() {
     val coreEventFlow: MutableSharedFlow<CoreEvent> by localDI().instance()
     val appScope: CoroutineScope by localDI().instance()
 
+    val strings = LocalStrings.current
+
     LaunchedEffect(appScope) {
         appScope.launch {
             coreEventFlow.collect { event ->
                 when (event) {
                     is CoreEvent.ShowSnackbar -> snackbarState.showSnackbar(
-                        message = event.message,
+                        message = with(strings) { with(event.message) { text() } },
                         actionLabel = event.actionLabel,
                         duration = event.duration
                     )

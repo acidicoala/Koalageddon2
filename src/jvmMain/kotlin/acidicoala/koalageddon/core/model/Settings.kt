@@ -18,20 +18,20 @@ data class Settings constructor(
     @Serializable
     enum class Theme : ILangString {
         Dark {
-            override fun text(strings: Strings) = strings.themeDark
+            override fun Strings.text() = themeDark
         },
         Light {
-            override fun text(strings: Strings) = strings.themeLight
+            override fun Strings.text() = themeLight
         }
     }
 
     @Serializable
     enum class Language : ILangString {
         English {
-            override fun text(strings: Strings) = strings.languageEn
+            override fun Strings.text() = languageEn
         },
         Russian {
-            override fun text(strings: Strings) = strings.languageRu
+            override fun Strings.text() = languageRu
         }
     }
 

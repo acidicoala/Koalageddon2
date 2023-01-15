@@ -2,6 +2,7 @@ package acidicoala.koalageddon.core.use_case
 
 import acidicoala.koalageddon.core.io.appJson
 import acidicoala.koalageddon.core.model.*
+import acidicoala.koalageddon.core.model.KoalaTool.Koaloader
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -27,51 +28,43 @@ class ModifyInstallationStatus(override val di: DI) : DIAware {
 
     @OptIn(ExperimentalSerializationApi::class)
     private suspend fun install(store: Store) = channelFlow {
-        val koaloader = KoalaTool.Koaloader
+        val koaloader = Koaloader
 
         val unlocker = store.unlocker
-        val unlockerFileName = "${unlocker.name}${store.isa.bitness}.dll"
-        val unlockerDirectory = (paths.unlockers / unlocker.name).createDirectories()
-        val unlockerDestination = unlockerDirectory / unlockerFileName
 
         downloadAndCacheKoalaTool(koaloader).collect(::send) // Forward events upwards
         downloadAndCacheKoalaTool(unlocker).collect(::send)
 
-        val koaloaderDestination = store.directory / "${koaloader.originalName}.dll"
         unzipToolDll(
             tool = koaloader,
             entry = "${koaloader.originalName}-${store.isa.bitness}/${koaloader.originalName}.dll",
-            destination = koaloaderDestination,
+            destination = paths.getKoaloaderDll(store),
         )
 
-        val koaloaderConfig = KoalaTool.Koaloader.Config(
+        val koaloaderConfig = Koaloader.Config(
             autoLoad = false,
             targets = listOf(store.executable),
             modules = listOf(
-                KoalaTool.Koaloader.Module(
-                    path = unlockerDestination.absolutePathString()
+                Koaloader.Module(
+                    path = paths.getUnlockerDll(unlocker).absolutePathString()
                 )
             )
         )
 
-        val koaloaderConfigPath = store.directory / koaloader.configName
-        appJson.encodeToStream(koaloaderConfig, koaloaderConfigPath.outputStream())
+        appJson.encodeToStream(koaloaderConfig, paths.getKoaloaderConfig(store).outputStream())
 
         unzipToolDll(
             tool = unlocker,
             entry = "${unlocker.originalName}${store.isa.bitnessSuffix}.dll",
-            destination = unlockerDestination,
+            destination = paths.getUnlockerDll(unlocker),
         )
 
-        unlocker.writeDefaultConfig(path = unlockerDirectory / unlocker.configName)
+        unlocker.writeConfig(path = paths.getUnlockerConfig(unlocker), unlocker.defaultConfig)
     }
 
     private fun uninstall(store: Store) = channelFlow<ILangString> {
-        val koaloader = KoalaTool.Koaloader
-        val koaloaderConfigPath = store.directory / koaloader.configName
-        koaloaderConfigPath.deleteIfExists()
+        paths.getKoaloaderConfig(store).deleteIfExists()
 
-        val koaloaderDllPath = store.directory / "${koaloader.originalName}.dll"
-        koaloaderDllPath.deleteIfExists()
+        paths.getKoaloaderDll(store).deleteIfExists()
     }
 }

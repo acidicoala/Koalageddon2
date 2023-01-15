@@ -29,7 +29,7 @@ sealed class InstallationStatus(
     object Updating : InstallationStatus(
         icon = Icons.Default.Pending,
         color = { Color.Gray },
-        label = LangString { updating }
+        label = LangString { computing }
     )
 
     companion object {

@@ -1,6 +1,5 @@
 package acidicoala.koalageddon.core.use_case
 
-import acidicoala.koalageddon.core.extensions.toHumanReadableString
 import acidicoala.koalageddon.core.io.httpClient
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.*
@@ -17,7 +16,7 @@ import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
 import java.nio.file.Files
-import kotlin.io.path.div
+import java.text.StringCharacterIterator
 import kotlin.io.path.writeBytes
 
 class DownloadAndCacheKoalaTool(override val di: DI) : DIAware {
@@ -45,9 +44,9 @@ class DownloadAndCacheKoalaTool(override val di: DI) : DIAware {
     suspend operator fun invoke(tool: KoalaTool) = channelFlow<ILangString> {
         send(LangString("%0" to tool.name) { fetchingToolInfo })
 
-        val releases = httpClient.get(tool.gitHubReleaseUrl)
-            .body<List<GitHubRelease>>()
+        val releases = httpClient.get(tool.gitHubReleaseUrl).body<List<GitHubRelease>>()
 
+        // TODO: Settings to toggle pre-release releases
         val release = releases
             .sortedByDescending { it.version }
             .find { it.version?.major == tool.majorVersion }
@@ -55,7 +54,7 @@ class DownloadAndCacheKoalaTool(override val di: DI) : DIAware {
 
         val asset = release.assets.first()
 
-        val assetPath = paths.cache / asset.name
+        val assetPath = paths.getCachePath(asset.name)
 
         if (Files.exists(assetPath) && asset.size == withContext(Dispatchers.IO) { Files.size(assetPath) }) {
             val version = release.version?.versionString
@@ -89,5 +88,19 @@ class DownloadAndCacheKoalaTool(override val di: DI) : DIAware {
         assetPath.writeBytes(assetBytes)
 
         logger.debug("Saved ${asset.name} to $assetPath")
+    }
+
+    // Source: https://stackoverflow.com/a/3758880
+    private fun Long.toHumanReadableString(): String {
+        var remainingBytes = this
+        if (-1000 < remainingBytes && remainingBytes < 1000) {
+            return "$remainingBytes B"
+        }
+        val ci = StringCharacterIterator("kMGTPE")
+        while (remainingBytes <= -999950 || remainingBytes >= 999950) {
+            remainingBytes /= 1000
+            ci.next()
+        }
+        return String.format("%.1f %cB", remainingBytes / 1000.0, ci.current())
     }
 }

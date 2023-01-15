@@ -1,21 +1,34 @@
 package acidicoala.koalageddon.core.model
 
 import acidicoala.koalageddon.BuildConfig
+import acidicoala.koalageddon.core.model.KoalaTool.Koaloader
 import net.harawata.appdirs.AppDirsFactory
 import kotlin.io.path.Path
 import kotlin.io.path.createDirectories
 import kotlin.io.path.div
 
 class AppPaths {
-    val data = Path(
+    val dataDir = Path(
         AppDirsFactory.getInstance().getUserDataDir(BuildConfig.APP_NAME, "", BuildConfig.APP_AUTHOR)
     ).createDirectories()
 
-    val settings = data / "Koalageddon.settings.json"
+    val settings = dataDir / "Koalageddon.settings.json"
 
-    val log = data / "Koalageddon.log.log"
+    val log = dataDir / "Koalageddon.log.log"
 
-    val cache = (data / "cache").createDirectories()
+    val cacheDir = (dataDir / "cache").createDirectories()
 
-    val unlockers = (data / "unlockers").createDirectories()
+    private val unlockersDir = (dataDir / "unlockers").createDirectories()
+
+    private fun getUnlockerDir(unlocker: KoalaTool) = (unlockersDir / unlocker.name).createDirectories()
+
+    fun getKoaloaderConfig(store: Store) = store.directory / Koaloader.configName
+
+    fun getKoaloaderDll(store: Store) = store.directory / "${Koaloader.originalName}.dll"
+
+    fun getUnlockerConfig(unlocker: KoalaTool) = getUnlockerDir(unlocker) / unlocker.configName
+
+    fun getUnlockerDll(unlocker: KoalaTool) = getUnlockerDir(unlocker) / "${unlocker.name}.dll"
+
+    fun getCachePath(filename: String) = cacheDir / filename
 }

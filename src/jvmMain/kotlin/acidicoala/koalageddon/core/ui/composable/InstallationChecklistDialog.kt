@@ -66,7 +66,7 @@ fun InstallationChecklistDropdown(store: Store, openState: ChecklistOpenState, c
             )
 
             ListItem(
-                checked = checklist.unlockerDll,
+                checked = checklist.unlockerDll != null,
                 label = LangString("%0" to store.unlocker.name) { toolDll }.text
             )
 

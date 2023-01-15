@@ -1,13 +1,13 @@
 package acidicoala.koalageddon.steam.ui
 
 import acidicoala.koalageddon.core.logging.AppLogger
-import acidicoala.koalageddon.core.model.ILangString
-import acidicoala.koalageddon.core.model.InstallationChecklist
-import acidicoala.koalageddon.core.model.LangString
-import acidicoala.koalageddon.core.model.Store
+import acidicoala.koalageddon.core.model.*
+import acidicoala.koalageddon.core.model.KoalaTool.SmokeAPI
+import acidicoala.koalageddon.core.model.KoalaTool.SmokeAPI.Config
 import acidicoala.koalageddon.core.use_case.GetInstallationChecklist
 import acidicoala.koalageddon.core.use_case.ModifyInstallationStatus
 import acidicoala.koalageddon.core.use_case.ShowSnackbar
+import acidicoala.koalageddon.core.use_case.UpdateUnlockerConfig
 import acidicoala.koalageddon.steam.domain.use_case.ReloadSteamConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,30 +22,40 @@ import org.kodein.di.DIAware
 import org.kodein.di.instance
 
 class SteamScreenModel(
-    override val di: DI, private val stateFlow: MutableStateFlow<State> = MutableStateFlow(State())
+    override val di: DI,
+    private val stateFlow: MutableStateFlow<State> = MutableStateFlow(State())
 ) : DIAware, StateFlow<SteamScreenModel.State> by stateFlow {
     data class State(
         val installProgressMessage: ILangString? = null,
-        val installationChecklist: InstallationChecklist? = null
+        val installationChecklist: InstallationChecklist? = null,
+        val config: Config? = null
     )
 
+    private val paths: AppPaths by instance()
     private val logger: AppLogger by instance()
     private val reloadSteamConfig: ReloadSteamConfig by instance()
     private val getInstallationChecklist: GetInstallationChecklist by instance()
     private val showSnackbar: ShowSnackbar by instance()
-
+    private val updateUnlockerConfig: UpdateUnlockerConfig by instance()
     private val modifyInstallationStatus: ModifyInstallationStatus by instance()
+
     private val scope = CoroutineScope(Dispatchers.IO)
     private val mutex = Mutex()
 
-    fun onRefreshStatus() {
+    fun onRefreshState() {
         scope.launch {
             stateFlow.update {
-                it.copy(installationChecklist = null)
+                it.copy(
+                    installationChecklist = null,
+                    config = null
+                )
             }
 
             stateFlow.update {
-                it.copy(installationChecklist = getInstallationChecklist(store = Store.Steam))
+                it.copy(
+                    installationChecklist = getInstallationChecklist(store = Store.Steam),
+                    config = SmokeAPI.parseConfig(paths.getUnlockerConfig(SmokeAPI))
+                )
             }
         }
     }
@@ -61,6 +71,10 @@ class SteamScreenModel(
     fun onModifyInstallation() {
         scope.launch {
             value.installationChecklist?.installationStatus?.let { currentStatus ->
+                if (currentStatus is InstallationStatus.Updating) {
+                    return@let
+                }
+
                 try {
                     modifyInstallationStatus(
                         store = Store.Steam, currentStatus = currentStatus
@@ -70,18 +84,38 @@ class SteamScreenModel(
                         }
                     }
 
-                    showSnackbar(message = LangString { installationSuccess })
+                    showSnackbar(message = LangString {
+                        when (currentStatus) {
+                            is InstallationStatus.Installed -> removalSuccess
+                            is InstallationStatus.NotInstalled -> installationSuccess
+                            is InstallationStatus.Updating -> throw IllegalStateException()
+                        }
+                    })
                 } catch (e: Exception) {
                     logger.error(e, "Error modifying installation status")
-                    showSnackbar(message = LangString { installationError })
+                    showSnackbar(message = LangString {
+                        when (currentStatus) {
+                            is InstallationStatus.Installed -> removalError
+                            is InstallationStatus.NotInstalled -> installationError
+                            is InstallationStatus.Updating -> throw IllegalStateException()
+                        }
+                    })
                 } finally {
                     stateFlow.update {
                         it.copy(installProgressMessage = null)
                     }
 
-                    onRefreshStatus()
+                    onRefreshState()
                 }
             }
         }
+    }
+
+    fun onConfigChange(config: Config) {
+        stateFlow.update {
+            it.copy(config = config)
+        }
+
+        updateUnlockerConfig(config, SmokeAPI)
     }
 }

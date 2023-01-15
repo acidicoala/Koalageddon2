@@ -1,6 +1,5 @@
 package acidicoala.koalageddon.core.ui.composable
 
-import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -11,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun ColumnScope.SectionLabel(icon: ImageVector, label: String) {
@@ -29,8 +29,7 @@ fun ColumnScope.SectionLabel(icon: ImageVector, label: String) {
         Text(
             text = label,
             style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier
-                .padding(vertical = DefaultContentPadding)
+            modifier = Modifier.padding(vertical = 8.dp)
         )
     }
 }

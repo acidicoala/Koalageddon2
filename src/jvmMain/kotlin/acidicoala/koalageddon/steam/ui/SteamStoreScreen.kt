@@ -7,11 +7,9 @@ import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.AppTheme
 import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
 import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -37,7 +35,7 @@ fun SteamStoreScreen() {
     val strings = LocalStrings.current
 
     LaunchedEffect(screenModel) {
-        screenModel.onRefreshStatus()
+        screenModel.onRefreshState()
     }
 
     VerticalScrollContainer(
@@ -55,7 +53,7 @@ fun SteamStoreScreen() {
                 buttonIcon = Icons.Default.Refresh,
                 buttonLabel = strings.refreshStatus,
                 outlined = true,
-                onClick = screenModel::onRefreshStatus
+                onClick = screenModel::onRefreshState
             )
 
             InstallationStatusOption(
@@ -72,8 +70,8 @@ fun SteamStoreScreen() {
                     else -> Icons.Default.InstallDesktop
                 },
                 buttonLabel = when (state.installationChecklist?.installationStatus) {
-                    null -> strings.updating
-                    is InstallationStatus.Installed -> strings.uninstall
+                    null -> strings.computing
+                    is InstallationStatus.Installed -> strings.remove
                     else -> strings.install
                 },
                 onClick = screenModel::onModifyInstallation
@@ -93,6 +91,8 @@ fun SteamStoreScreen() {
                 }
             }
 
+            Divider(Modifier.padding(vertical = 8.dp))
+
             SectionLabel(
                 icon = Icons.Default.SettingsApplications, label = strings.configuration
             )
@@ -105,6 +105,13 @@ fun SteamStoreScreen() {
                 buttonLabel = strings.reloadConfig,
                 onClick = screenModel::onReloadConfig
             )
+
+            state.config?.let { config ->
+                SmokeApiConfiguration(
+                    config = config,
+                    onConfigChange = screenModel::onConfigChange,
+                )
+            }
         }
     }
 }

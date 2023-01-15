@@ -40,7 +40,7 @@ class SettingsScreenModel(override val di: DI) : DIAware {
     }
 
     fun onOpenDataDirectory() {
-        openDirectoryInExplorer(appPaths.data)
+        openDirectoryInExplorer(appPaths.dataDir)
     }
 
     fun onClearCache() {

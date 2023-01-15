@@ -1,16 +1,15 @@
 package acidicoala.koalageddon.core.model
 
 data class InstallationChecklist(
-    val koaloaderDll: Boolean? = null,
-    val koaloaderConfig: Boolean? = null,
-    val unlockerDll: Boolean? = null,
-    val unlockerConfig: Boolean? = null,
-    val unlockerVersion: String? = null,
+    val koaloaderDll: Boolean = false,
+    val koaloaderConfig: Boolean = false,
+    val unlockerDll: String? = null,
+    val unlockerConfig: Boolean = false,
 ) {
-    private val allValues = listOf(koaloaderDll, koaloaderConfig, unlockerDll, unlockerConfig)
+    private val allValues = listOf(koaloaderDll, koaloaderConfig, unlockerDll != null, unlockerConfig)
 
     val installationStatus = when {
-        allValues.all { it == true } -> InstallationStatus.Installed(unlockerVersion ?: "")
+        allValues.all { it } -> InstallationStatus.Installed(unlockerDll ?: "")
         else -> InstallationStatus.NotInstalled
     }
 }

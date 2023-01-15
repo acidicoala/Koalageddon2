@@ -26,4 +26,5 @@ val coreModule = DI.Module(name = "Core") {
     bindProvider { ModifyInstallationStatus(di) }
     bindProvider { DownloadAndCacheKoalaTool(di) }
     bindProvider { UnzipToolDll(di) }
+    bindProvider { UpdateUnlockerConfig(di) }
 }
