@@ -5,10 +5,10 @@ import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import java.util.*
 
 @Composable
-fun IntListDropdownOption(
+fun IntListOption(
     label: String,
     itemLabel: String,
     list: List<Int>,
@@ -225,11 +225,12 @@ private fun ExpandableOption(
         modifier = Modifier
             .padding(vertical = 8.dp)
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colors.surface)
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colors.onBackground.copy(alpha = .5f),
-                shape = RoundedCornerShape(8.dp)
+                shape = MaterialTheme.shapes.medium
             )
     ) {
         Row(

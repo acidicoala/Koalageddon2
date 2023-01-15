@@ -2,6 +2,7 @@ name: Build on push
 on: [ push ]
 jobs:
   build:
+    name: Build project distributable
     runs-on: windows-2022
     steps:
       - name: 📥 Checkout the code
@@ -21,11 +22,9 @@ jobs:
       - name: 🏗️ Build the project with Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: createDistributable
-          cache-disabled: true # TODO: Remove this once repo is public
+          arguments: createReleaseDistributable
 
       - name: 📤 Upload build artifacts
-        if: ${{ false }} # TODO: Remove this once repo is public
         uses: actions/upload-artifact@v3
         with:
           name: app

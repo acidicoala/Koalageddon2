@@ -2,6 +2,22 @@
 
 image::src/jvmMain/resources/images/icon.png[,256]
 
+A multi-store DLC unlocker.
+Currently, in development.
+
+Implemented stores:
+
+* _Steam_ via SmokeAPI (store mode)
+
+Coming up in future updates:
+
+* _Steam_ via SmokeAPI (game mode)
+* _Epic Games Store_ via ScreamAPI (store mode)
+* _Epic Games Store_ via ScreamAPI (game mode)
+* _Ubisoft Connect_ via UplayR*Unlocker (store mode)
+* _Ubisoft Connect_ via UplayR*Unlocker (game mode)
+
+
 == 🏗️ Development setup
 
 === 🚦 Requirements

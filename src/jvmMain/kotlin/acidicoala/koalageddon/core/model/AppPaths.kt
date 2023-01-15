@@ -8,17 +8,23 @@ import kotlin.io.path.createDirectories
 import kotlin.io.path.div
 
 class AppPaths {
-    val dataDir = Path(
-        AppDirsFactory.getInstance().getUserDataDir(BuildConfig.APP_NAME, "", BuildConfig.APP_AUTHOR)
-    ).createDirectories()
+    private val userDataDir = Path(
+        AppDirsFactory.getInstance().getUserDataDir(
+            BuildConfig.APP_NAME,
+            "", // appVersion
+            BuildConfig.APP_AUTHOR
+        )
+    )
+
+    val dataDir get() = userDataDir.createDirectories()
 
     val settings = dataDir / "Koalageddon.settings.json"
 
     val log = dataDir / "Koalageddon.log.log"
 
-    val cacheDir = (dataDir / "cache").createDirectories()
+    val cacheDir get() = (dataDir / "cache").createDirectories()
 
-    private val unlockersDir = (dataDir / "unlockers").createDirectories()
+    private val unlockersDir get() = (dataDir / "unlockers").createDirectories()
 
     private fun getUnlockerDir(unlocker: KoalaTool) = (unlockersDir / unlocker.name).createDirectories()
 
@@ -30,5 +36,8 @@ class AppPaths {
 
     fun getUnlockerDll(unlocker: KoalaTool) = getUnlockerDir(unlocker) / "${unlocker.name}.dll"
 
-    fun getCachePath(filename: String) = cacheDir / filename
+    fun getCacheAsset(filename: String) = cacheDir / filename
+
+    fun getStoreExecutablePath(store: Store) = store.directory / store.executable
+
 }

@@ -13,9 +13,11 @@ import org.kodein.di.instance
 import kotlin.io.path.*
 
 class ModifyInstallationStatus(override val di: DI) : DIAware {
+    private val paths: AppPaths by instance()
     private val downloadAndCacheKoalaTool: DownloadAndCacheKoalaTool by instance()
     private val unzipToolDll: UnzipToolDll by instance()
-    private val paths: AppPaths by instance()
+    private val forceCloseProcess: ForceCloseProcess by instance()
+    private val isProcessRunning: IsProcessRunning by instance()
 
     suspend operator fun invoke(
         store: Store,
@@ -28,6 +30,8 @@ class ModifyInstallationStatus(override val di: DI) : DIAware {
 
     @OptIn(ExperimentalSerializationApi::class)
     private suspend fun install(store: Store) = channelFlow {
+        closeIfRunning(store)
+
         val koaloader = Koaloader
 
         val unlocker = store.unlocker
@@ -63,8 +67,18 @@ class ModifyInstallationStatus(override val di: DI) : DIAware {
     }
 
     private fun uninstall(store: Store) = channelFlow<ILangString> {
+        closeIfRunning(store)
+
         paths.getKoaloaderConfig(store).deleteIfExists()
 
         paths.getKoaloaderDll(store).deleteIfExists()
+    }
+
+    private suspend fun closeIfRunning(store: Store) {
+        paths.getStoreExecutablePath(store).let { processPath ->
+            if (isProcessRunning(processPath)) {
+                forceCloseProcess(processPath)
+            }
+        }
     }
 }

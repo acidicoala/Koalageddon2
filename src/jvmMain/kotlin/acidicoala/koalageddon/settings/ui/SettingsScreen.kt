@@ -1,5 +1,6 @@
 package acidicoala.koalageddon.settings.ui
 
+import acidicoala.koalageddon.core.model.LangString
 import acidicoala.koalageddon.core.ui.composable.ButtonOption
 import acidicoala.koalageddon.core.ui.composable.DropdownOption
 import acidicoala.koalageddon.core.ui.composable.VerticalScrollContainer
@@ -13,6 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,9 +26,14 @@ import org.kodein.di.instance
 @Composable
 fun SettingsScreen() {
     val screenModel: SettingsScreenModel by localDI().instance()
+    val state by screenModel.collectAsState()
 
     val settings = LocalSettings.current
     val strings = LocalStrings.current
+
+    LaunchedEffect(screenModel) {
+        screenModel.onRefreshStatus()
+    }
 
     VerticalScrollContainer(
         contentAlignment = Alignment.TopCenter,
@@ -63,7 +72,7 @@ fun SettingsScreen() {
             )
 
             ButtonOption(
-                label = "Cache size: xyz MB", // TODO
+                label = LangString("%0" to state.cacheSize) { cacheSize }.text,
                 buttonLabel = strings.clearCache,
                 onClick = screenModel::onClearCache
             )

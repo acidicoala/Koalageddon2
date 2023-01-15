@@ -4,13 +4,11 @@ import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.*
 import acidicoala.koalageddon.core.model.KoalaTool.SmokeAPI
 import acidicoala.koalageddon.core.model.KoalaTool.SmokeAPI.Config
-import acidicoala.koalageddon.core.use_case.GetInstallationChecklist
-import acidicoala.koalageddon.core.use_case.ModifyInstallationStatus
-import acidicoala.koalageddon.core.use_case.ShowSnackbar
-import acidicoala.koalageddon.core.use_case.UpdateUnlockerConfig
+import acidicoala.koalageddon.core.use_case.*
 import acidicoala.koalageddon.steam.domain.use_case.ReloadSteamConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -20,6 +18,7 @@ import kotlinx.coroutines.sync.withLock
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
+import kotlin.time.Duration.Companion.milliseconds
 
 class SteamScreenModel(
     override val di: DI,
@@ -28,7 +27,8 @@ class SteamScreenModel(
     data class State(
         val installProgressMessage: ILangString? = null,
         val installationChecklist: InstallationChecklist? = null,
-        val config: Config? = null
+        val config: Config? = null,
+        val isSteamRunning: Boolean = false,
     )
 
     private val paths: AppPaths by instance()
@@ -38,6 +38,7 @@ class SteamScreenModel(
     private val showSnackbar: ShowSnackbar by instance()
     private val updateUnlockerConfig: UpdateUnlockerConfig by instance()
     private val modifyInstallationStatus: ModifyInstallationStatus by instance()
+    private val isProcessRunning: IsProcessRunning by instance()
 
     private val scope = CoroutineScope(Dispatchers.IO)
     private val mutex = Mutex()
@@ -47,15 +48,31 @@ class SteamScreenModel(
             stateFlow.update {
                 it.copy(
                     installationChecklist = null,
-                    config = null
+                    config = null,
                 )
             }
 
             stateFlow.update {
                 it.copy(
                     installationChecklist = getInstallationChecklist(store = Store.Steam),
-                    config = SmokeAPI.parseConfig(paths.getUnlockerConfig(SmokeAPI))
+                    config = try {
+                        SmokeAPI.parseConfig(paths.getUnlockerConfig(SmokeAPI))
+                    } catch (e: Exception) {
+                        null
+                    },
                 )
+            }
+        }
+
+        scope.launch {
+            while (true) {
+                stateFlow.update {
+                    it.copy(
+                        isSteamRunning = isProcessRunning(paths.getStoreExecutablePath(Store.Steam))
+                    )
+                }
+
+                delay(500.milliseconds)
             }
         }
     }

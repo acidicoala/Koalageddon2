@@ -9,8 +9,12 @@ plugins {
     id("com.github.gmazzo.buildconfig") version "3.1.0"
 }
 
-group = "acidicoala"
-version = "2.0.0-alpha01"
+val author = "acidicoala"
+val projectName = "Koalageddon"
+val appVersion = "0.1.0"
+
+group = author
+version = appVersion
 
 repositories {
     google()
@@ -80,14 +84,27 @@ compose.desktop {
     application {
         mainClass = "acidicoala.koalageddon.MainKt"
         nativeDistributions {
-            // TODO: Reference them from previous settings
-            packageName = "koalageddon"
-            packageVersion = "1.0.0"
+            packageName = projectName
+            packageVersion = appVersion
+            version = appVersion
+            description = "A multi-store DLC Unlocker"
+            copyright = "Fuck the copyright 🖕"
+            vendor = author
+            licenseFile.set(project.file("UNLICENSE.txt"))
+
+            windows {
+                iconFile.set(project.file("icon.ico"))
+                menuGroup = projectName
+                upgradeUuid = "B04EF055-B8A7-423E-8E6F-3835AE943C4E"
+            }
 
             targetFormats(TargetFormat.Msi)
 
             // run `gradle suggestRuntimeModules` to get this list
             modules("java.instrument", "java.management", "java.naming", "java.sql", "jdk.unsupported")
+        }
+        buildTypes.release.proguard {
+            isEnabled.set(false)
         }
     }
 }

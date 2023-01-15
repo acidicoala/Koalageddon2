@@ -1,13 +1,13 @@
 package acidicoala.koalageddon.home.ui
 
 import acidicoala.koalageddon.core.event.CoreEvent
-import acidicoala.koalageddon.core.ui.composition.LocalSettings
+import acidicoala.koalageddon.core.ui.composable.DevelopmentPlaceholder
+import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.DefaultIconSize
 import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
-import acidicoala.koalageddon.core.model.Settings
-import acidicoala.koalageddon.core.ui.composition.LocalStrings
-import acidicoala.koalageddon.settings.domain.use_case.SaveSettings
+import acidicoala.koalageddon.home.model.HomeTab
 import acidicoala.koalageddon.settings.ui.SettingsScreen
+import acidicoala.koalageddon.start.ui.StartScreen
 import acidicoala.koalageddon.steam.ui.SteamScreen
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
@@ -22,6 +22,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
+
+sealed interface VerticalTabElement {
+    class Tab(val tab: HomeTab) : VerticalTabElement
+    object Spacer : VerticalTabElement
+}
 
 @Composable
 fun HomeScreen() {
@@ -47,49 +52,58 @@ fun HomeScreen() {
         }
     }
 
-    val settings = LocalSettings.current
-    var selectedTab: Settings.HomeTab by remember { mutableStateOf(settings.lastHomeTab) }
-    val saveSettings: SaveSettings by localDI().instance()
-    LaunchedEffect(selectedTab) {
-        saveSettings { copy(lastHomeTab = selectedTab) }
+    var selectedTab: HomeTab by remember { mutableStateOf(HomeTab.Start) }
+
+    val homeTabs = remember {
+        HomeTab.values()
+            .filter { it.store?.installed ?: true }
+            .sortedBy(HomeTab::priority)
+            .map(VerticalTabElement::Tab)
+            .toMutableList<VerticalTabElement>()
+            .apply {
+                add(2, VerticalTabElement.Spacer)
+            }
     }
 
     Scaffold(
         content = { paddingValues ->
             Row(Modifier.padding(paddingValues)) {
                 Column(Modifier.width(256.dp)) {
-                    Settings.HomeTab.values().forEachIndexed { index, tab ->
-                        Box {
-                            LeadingIconTab(
-                                selected = tab == selectedTab,
-                                modifier = Modifier.fillMaxWidth(),
-                                onClick = { selectedTab = tab },
-                                icon = {
-                                    Image(
-                                        painter = tab.painter(),
-                                        contentDescription = tab.label(),
-                                        modifier = Modifier.size(DefaultIconSize),
-                                    )
-                                },
-                                text = {
-                                    Text(
-                                        text = tab.label(),
-                                        color = MaterialTheme.colors.onSurface
+                    homeTabs.forEachIndexed { index, element ->
+                        val modifier = when (element) {
+                            is VerticalTabElement.Spacer -> Modifier.weight(1f)
+                            is VerticalTabElement.Tab -> Modifier
+                        }
+                        Box(modifier) {
+                            when (element) {
+                                is VerticalTabElement.Tab -> {
+                                    val tab = element.tab
+
+                                    LeadingIconTab(
+                                        selected = tab == selectedTab,
+                                        modifier = Modifier.fillMaxWidth(),
+                                        onClick = { selectedTab = tab },
+                                        icon = {
+                                            Image(
+                                                painter = tab.painter(),
+                                                contentDescription = tab.label(),
+                                                modifier = Modifier.size(DefaultIconSize),
+                                            )
+                                        },
+                                        text = {
+                                            Text(
+                                                text = tab.label(),
+                                                color = MaterialTheme.colors.onSurface
+                                            )
+                                        }
                                     )
                                 }
-                            )
+                                else -> Unit
+                            }
 
-                            if (index == 0) {
+                            if (index < homeTabs.size - 1) {
                                 Divider(Modifier.align(Alignment.BottomCenter))
                             }
-
-                            if (index != 0) {
-                                Divider(Modifier.align(Alignment.TopCenter))
-                            }
-                        }
-
-                        if (index == 0) {
-                            Spacer(Modifier.weight(1f))
                         }
                     }
                 }
@@ -99,8 +113,11 @@ fun HomeScreen() {
                 Box(Modifier.fillMaxSize()) {
                     Crossfade(selectedTab) { tab ->
                         when (tab) {
-                            Settings.HomeTab.Steam -> SteamScreen()
-                            Settings.HomeTab.Settings -> SettingsScreen()
+                            HomeTab.Start -> StartScreen()
+                            HomeTab.Steam -> SteamScreen()
+                            HomeTab.Settings -> SettingsScreen()
+                            HomeTab.Epic -> DevelopmentPlaceholder()
+                            HomeTab.Ubisoft -> DevelopmentPlaceholder()
                         }
                     }
                 }

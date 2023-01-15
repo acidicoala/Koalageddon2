@@ -3,7 +3,7 @@ package acidicoala.koalageddon.steam.ui
 import acidicoala.koalageddon.core.model.KoalaTool.SmokeAPI
 import acidicoala.koalageddon.core.model.KoalaTool.SmokeAPI.Config
 import acidicoala.koalageddon.core.ui.composable.DropdownOption
-import acidicoala.koalageddon.core.ui.composable.IntListDropdownOption
+import acidicoala.koalageddon.core.ui.composable.IntListOption
 import acidicoala.koalageddon.core.ui.composable.IntMapDropdownOption
 import acidicoala.koalageddon.core.ui.composable.SwitchOption
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
@@ -58,7 +58,7 @@ fun SmokeApiConfiguration(config: Config, onConfigChange: (Config) -> Unit) {
             onCheckedChange = { onConfigChange(config.copy(autoInjectInventory = it)) }
         )
 
-        IntListDropdownOption(
+        IntListOption(
             label = strings.extraInventoryItems,
             itemLabel = strings.itemId,
             list = config.extraInventoryItems,

@@ -1,4 +1,4 @@
-package acidicoala.koalageddon.settings.domain.use_case
+package acidicoala.koalageddon.core.use_case
 
 import acidicoala.koalageddon.core.logging.AppLogger
 import acidicoala.koalageddon.core.model.AppPaths

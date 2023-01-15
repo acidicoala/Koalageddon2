@@ -61,17 +61,17 @@ sealed class KoalaTool(
         enum class AppStatus : ILangString {
             @SerialName("original")
             Original {
-                override fun Strings.text() = statusOriginal
+                override fun Strings.text() = appStatusOriginal
             },
 
             @SerialName("unlocked")
             Unlocked {
-                override fun Strings.text() = statusUnlocked
+                override fun Strings.text() = appStatusUnlocked
             },
 
             @SerialName("locked")
             Locked {
-                override fun Strings.text() = statusLocked
+                override fun Strings.text() = appStatusLocked
             };
 
             companion object {

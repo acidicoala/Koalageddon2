@@ -1,6 +1,7 @@
 package acidicoala.koalageddon
 
 import acidicoala.koalageddon.core.di.coreModule
+import acidicoala.koalageddon.core.model.Settings
 import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.AppRippleTheme
@@ -8,7 +9,6 @@ import acidicoala.koalageddon.core.ui.theme.AppTheme
 import acidicoala.koalageddon.core.values.Bitmaps
 import acidicoala.koalageddon.home.ui.HomeScreen
 import acidicoala.koalageddon.settings.di.settingsModule
-import acidicoala.koalageddon.core.model.Settings
 import acidicoala.koalageddon.steam.di.steamModule
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ripple.LocalRippleTheme
@@ -53,7 +53,7 @@ fun main() = application {
 
             // CompositionLocalProvider(LocalElevationOverlay provides null){
 
-            MaterialTheme(colors = colors) {
+            MaterialTheme(colors = colors, shapes = AppTheme.shapes) {
                 CompositionLocalProvider(LocalSettings provides settings) {
                     CompositionLocalProvider(LocalStrings provides settings.strings) {
                         CompositionLocalProvider(LocalRippleTheme provides AppRippleTheme) {
