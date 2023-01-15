@@ -4,6 +4,7 @@ import acidicoala.koalageddon.BuildConfig
 
 sealed class Strings(
     val appId: String = "App ID",
+    val autoInjectInventory: String,
     val checkForUpdates: String,
     val clearCache: String,
     val computing: String,
@@ -11,6 +12,7 @@ sealed class Strings(
     val defaultAppStatus: String,
     val dlcId: String = "DLC ID",
     val downloadingRelease: String,
+    val extraInventoryItems: String,
     val fetchingToolInfo: String,
     val gameMode: String,
     val inDevelopment: String,
@@ -20,6 +22,7 @@ sealed class Strings(
     val installationStatus: String,
     val installationSuccess: String,
     val installed: String,
+    val itemId: String = "Item ID",
     val language: String,
     val languageEn: String = "English",
     val languageRu: String = "Русский",
@@ -27,6 +30,7 @@ sealed class Strings(
     val modifyInstallation: String,
     val openDataDirectory: String,
     val overrideAppStatus: String,
+    val overrideDlcStatus: String,
     val notInstalled: String,
     val refreshStatus: String,
     val reloadConfig: String,
@@ -50,12 +54,14 @@ sealed class Strings(
     val version: String,
 ) {
     object English : Strings(
+        autoInjectInventory = "Automatically inject items into a game's Steam inventory",
         checkForUpdates = "Check for updates",
         clearCache = "Clear cache",
         computing = "Computing",
         configuration = "Configuration",
         defaultAppStatus = "Default game status",
         downloadingRelease = "Downloading %0 release: %1 out of %2",
+        extraInventoryItems = "Inject extra items into a game's Steam inventory",
         fetchingToolInfo = "Fetching %0 info",
         gameMode = "Game mode",
         inDevelopment = "In development",
@@ -70,6 +76,7 @@ sealed class Strings(
         modifyInstallation = "Modify installation",
         openDataDirectory = "Open data directory",
         overrideAppStatus = "Override game status",
+        overrideDlcStatus = "Override DLC status",
         notInstalled = "Not installed",
         refreshStatus = "Refresh status",
         reloadConfig = "Reload configuration",
@@ -92,12 +99,14 @@ sealed class Strings(
     )
 
     object Russian : Strings(
+        autoInjectInventory = "Автоматически внедрять предметы в игровой Steam инвентарь",
         checkForUpdates = "Проверить обновления",
         clearCache = "Очистить кэш",
         computing = "Вычисляется",
         configuration = "Конфигурация",
         defaultAppStatus = "Статус игр по умолчанию",
         downloadingRelease = "Загрузка %0 релиза: %1 из %2",
+        extraInventoryItems = "Внедрить дополнительные предметы в игровой  Steam инвентарь",
         fetchingToolInfo = "Получение данных %0",
         gameMode = "Режим игры",
         inDevelopment = "В разработке",
@@ -112,6 +121,7 @@ sealed class Strings(
         modifyInstallation = "Изменить установку",
         openDataDirectory = "Открыть директорию данных",
         overrideAppStatus = "Заменить статус игры",
+        overrideDlcStatus = "Заменить статус DLC",
         notInstalled = "Не установлено",
         refreshStatus = "Обновить статус",
         reloadConfig = "Перезагрузить конфигурацию",

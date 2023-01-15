@@ -3,12 +3,12 @@ package acidicoala.koalageddon.steam.ui
 import acidicoala.koalageddon.core.model.KoalaTool.SmokeAPI
 import acidicoala.koalageddon.core.model.KoalaTool.SmokeAPI.Config
 import acidicoala.koalageddon.core.ui.composable.DropdownOption
-import acidicoala.koalageddon.core.ui.composable.MapDropdownOption
+import acidicoala.koalageddon.core.ui.composable.IntListDropdownOption
+import acidicoala.koalageddon.core.ui.composable.IntMapDropdownOption
 import acidicoala.koalageddon.core.ui.composable.SwitchOption
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
 fun SmokeApiConfiguration(config: Config, onConfigChange: (Config) -> Unit) {
@@ -34,15 +34,36 @@ fun SmokeApiConfiguration(config: Config, onConfigChange: (Config) -> Unit) {
             onSelect = { onConfigChange(config.copy(defaultAppStatus = it)) }
         )
 
-        MapDropdownOption(
+        IntMapDropdownOption(
             label = strings.overrideAppStatus,
             keyLabel = strings.appId,
             map = config.overrideAppStatus,
-            defaultEntry = "0" to SmokeAPI.AppStatus.Original,
+            defaultValue = SmokeAPI.AppStatus.Original,
             validValues = SmokeAPI.AppStatus.validAppStatuses,
-            keyboardType = KeyboardType.Number,
-            keyMapper = { if (it.isBlank()) "0" else it.toLongOrNull()?.toString() },
             onMapChange = { onConfigChange(config.copy(overrideAppStatus = it)) }
         )
+
+        IntMapDropdownOption(
+            label = strings.overrideDlcStatus,
+            keyLabel = strings.dlcId,
+            map = config.overrideDlcStatus,
+            defaultValue = SmokeAPI.AppStatus.Original,
+            validValues = SmokeAPI.AppStatus.validDlcStatuses,
+            onMapChange = { onConfigChange(config.copy(overrideDlcStatus = it)) }
+        )
+
+        SwitchOption(
+            label = strings.autoInjectInventory,
+            checked = config.autoInjectInventory,
+            onCheckedChange = { onConfigChange(config.copy(autoInjectInventory = it)) }
+        )
+
+        IntListDropdownOption(
+            label = strings.extraInventoryItems,
+            itemLabel = strings.itemId,
+            list = config.extraInventoryItems,
+            onListChange = { onConfigChange(config.copy(extraInventoryItems = it)) }
+        )
+
     }
 }
