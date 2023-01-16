@@ -17,6 +17,7 @@ Coming up in future updates:
 * _Ubisoft Connect_ via UplayR*Unlocker (store mode)
 * _Ubisoft Connect_ via UplayR*Unlocker (game mode)
 
+image::extra/screenshot.jpg[,512]
 
 == 🏗️ Development setup
 
