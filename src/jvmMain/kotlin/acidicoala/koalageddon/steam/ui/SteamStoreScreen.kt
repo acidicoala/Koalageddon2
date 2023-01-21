@@ -45,14 +45,6 @@ fun SteamStoreScreen() {
                 icon = Icons.Default.Info, label = strings.information
             )
 
-            ButtonOption(
-                label = "",
-                buttonIcon = Icons.Default.Refresh,
-                buttonLabel = strings.refreshStatus,
-                outlined = true,
-                onClick = screenModel::onRefreshState
-            )
-
             RunningStatusOption(
                 label = LangString("%0" to Store.Steam.executable) { storeProcessStatus }.text,
                 running = state.isSteamRunning
@@ -62,6 +54,14 @@ fun SteamStoreScreen() {
 
             SectionLabel(
                 icon = Icons.Default.InstallDesktop, label = strings.installation
+            )
+
+            ButtonOption(
+                label = "",
+                buttonIcon = Icons.Default.Refresh,
+                buttonLabel = strings.refreshStatus,
+                outlined = true,
+                onClick = screenModel::onRefreshState
             )
 
             InstallationStatusOption(
@@ -112,6 +112,8 @@ fun SteamStoreScreen() {
                     icon = Icons.Default.SettingsApplications, label = strings.configuration
                 )
 
+                // TODO: Restore default settings button
+
                 Box {
                     TooltipArea(
                         tooltip = {
@@ -133,7 +135,7 @@ fun SteamStoreScreen() {
                     }
                 }
 
-                SmokeApiConfiguration(
+                SteamConfiguration(
                     config = config,
                     onConfigChange = screenModel::onConfigChange,
                 )

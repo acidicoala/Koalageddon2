@@ -7,25 +7,25 @@ import kotlinx.serialization.Transient
 @Serializable
 data class Settings constructor(
     val theme: Theme = Theme.Dark,
-    val language: Language = Language.English,
+    val language: Language = Language.English, // TODO: Auto-detect system lang
 ) {
     @Serializable
     enum class Theme : ILangString {
         Dark {
-            override fun Strings.text() = themeDark
+            override fun text(strings: Strings) = strings.themeDark
         },
         Light {
-            override fun Strings.text() = themeLight
+            override fun text(strings: Strings) = strings.themeLight
         }
     }
 
     @Serializable
     enum class Language : ILangString {
         English {
-            override fun Strings.text() = languageEn
+            override fun text(strings: Strings) = strings.languageEn
         },
         Russian {
-            override fun Strings.text() = languageRu
+            override fun text(strings: Strings) = strings.languageRu
         }
     }
 

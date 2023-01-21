@@ -15,7 +15,9 @@ import kotlin.io.path.outputStream
 
 @OptIn(ExperimentalSerializationApi::class)
 sealed class KoalaTool(
-    val name: String, val originalName: String, val majorVersion: Int
+    val name: String,
+    val originalName: String,
+    val majorVersion: Int
 ) {
     val configName = "$name.config.json"
     val gitHubReleaseUrl = "https://api.github.com/repos/acidicoala/$name/releases"
@@ -61,17 +63,17 @@ sealed class KoalaTool(
         enum class AppStatus : ILangString {
             @SerialName("original")
             Original {
-                override fun Strings.text() = appStatusOriginal
+                override fun text(strings: Strings) = strings.appStatusOriginal
             },
 
             @SerialName("unlocked")
             Unlocked {
-                override fun Strings.text() = appStatusUnlocked
+                override fun text(strings: Strings) = strings.appStatusUnlocked
             },
 
             @SerialName("locked")
             Locked {
-                override fun Strings.text() = appStatusLocked
+                override fun text(strings: Strings) = strings.appStatusLocked
             };
 
             companion object {
@@ -85,6 +87,7 @@ sealed class KoalaTool(
             val dlcs: Map<String, String> = mapOf()
         )
 
+        // TODO: Version validation
         @Serializable
         data class Config(
             val logging: Boolean = false,

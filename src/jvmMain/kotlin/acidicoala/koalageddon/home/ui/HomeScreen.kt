@@ -2,7 +2,6 @@ package acidicoala.koalageddon.home.ui
 
 import acidicoala.koalageddon.core.event.CoreEvent
 import acidicoala.koalageddon.core.ui.composable.DevelopmentPlaceholder
-import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.DefaultIconSize
 import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
 import acidicoala.koalageddon.home.model.HomeTab
@@ -36,14 +35,12 @@ fun HomeScreen() {
     val coreEventFlow: MutableSharedFlow<CoreEvent> by localDI().instance()
     val appScope: CoroutineScope by localDI().instance()
 
-    val strings = LocalStrings.current
-
     LaunchedEffect(appScope) {
         appScope.launch {
             coreEventFlow.collect { event ->
                 when (event) {
                     is CoreEvent.ShowSnackbar -> snackbarState.showSnackbar(
-                        message = with(strings) { with(event.message) { text() } },
+                        message = event.message,
                         actionLabel = event.actionLabel,
                         duration = event.duration
                     )
@@ -55,12 +52,8 @@ fun HomeScreen() {
     var selectedTab: HomeTab by remember { mutableStateOf(HomeTab.Start) }
 
     val homeTabs = remember {
-        HomeTab.values()
-            .filter { it.store?.installed ?: true }
-            .sortedBy(HomeTab::priority)
-            .map(VerticalTabElement::Tab)
-            .toMutableList<VerticalTabElement>()
-            .apply {
+        HomeTab.values().filter { it.store?.installed ?: true }.sortedBy(HomeTab::priority).map(VerticalTabElement::Tab)
+            .toMutableList<VerticalTabElement>().apply {
                 add(2, VerticalTabElement.Spacer)
             }
     }
@@ -79,8 +72,7 @@ fun HomeScreen() {
                                 is VerticalTabElement.Tab -> {
                                     val tab = element.tab
 
-                                    LeadingIconTab(
-                                        selected = tab == selectedTab,
+                                    LeadingIconTab(selected = tab == selectedTab,
                                         modifier = Modifier.fillMaxWidth(),
                                         onClick = { selectedTab = tab },
                                         icon = {
@@ -92,11 +84,9 @@ fun HomeScreen() {
                                         },
                                         text = {
                                             Text(
-                                                text = tab.label(),
-                                                color = MaterialTheme.colors.onSurface
+                                                text = tab.label(), color = MaterialTheme.colors.onSurface
                                             )
-                                        }
-                                    )
+                                        })
                                 }
                                 else -> Unit
                             }

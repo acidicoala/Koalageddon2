@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SmokeApiConfiguration(config: Config, onConfigChange: (Config) -> Unit) {
+fun SteamConfiguration(config: Config, onConfigChange: (Config) -> Unit) {
     val strings = LocalStrings.current
 
     Column {

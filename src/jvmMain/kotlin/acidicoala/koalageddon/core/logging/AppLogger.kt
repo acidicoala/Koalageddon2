@@ -49,9 +49,9 @@ class AppLogger(override val di: DI) : DIAware {
     private fun format(levelEmoji: String, message: String): String {
         // Remove usernames from log messages in order to ensure user's privacy
         val userMatch = userRegex.find(message)
-        val userName = userMatch?.groups?.get(1)?.value
+        val userNameMatch = userMatch?.groups?.get(1)
 
-        val sanitisedMessage = userName?.let { message.replace(it, "%USERNAME%") }
+        val sanitisedMessage = userNameMatch?.let { message.replaceRange(it.range, "%USERNAME%") }
             ?: message
 
         val time = SimpleDateFormat("HH:mm:ss.SSS").format(Date.from(Instant.now()))

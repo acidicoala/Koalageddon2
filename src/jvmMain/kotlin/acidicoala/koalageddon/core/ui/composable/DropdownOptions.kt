@@ -2,8 +2,8 @@ package acidicoala.koalageddon.core.ui.composable
 
 import acidicoala.koalageddon.core.model.ILangString
 import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContentScope.SlideDirection
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -241,7 +241,9 @@ private fun ExpandableOption(
                 .clickable { expanded = !expanded }
                 .padding(DefaultContentPadding)
         ) {
-            header()
+            Box(Modifier.weight(1f)) {
+                header()
+            }
 
             Icon(
                 imageVector = Icons.Default.ExpandMore,
@@ -250,7 +252,13 @@ private fun ExpandableOption(
             )
         }
 
-        AnimatedContent(targetState = expanded) { targetExpanded ->
+        AnimatedContent(
+            targetState = expanded,
+            transitionSpec = {
+                fadeIn() + slideIntoContainer(SlideDirection.Down) with
+                        slideOutOfContainer(SlideDirection.Up) + fadeOut()
+            }
+        ) { targetExpanded ->
             if (targetExpanded) {
                 content()
             }

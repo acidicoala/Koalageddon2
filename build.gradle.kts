@@ -96,6 +96,9 @@ compose.desktop {
                 iconFile.set(project.file("icon.ico"))
                 menuGroup = projectName
                 upgradeUuid = "B04EF055-B8A7-423E-8E6F-3835AE943C4E"
+                // TODO:
+                // dirChooser?
+                // Shortcut?
             }
 
             targetFormats(TargetFormat.Msi)
@@ -104,6 +107,7 @@ compose.desktop {
             modules("java.instrument", "java.management", "java.naming", "java.sql", "jdk.unsupported")
         }
         buildTypes.release.proguard {
+            // TODO: Find ways to enable it
             isEnabled.set(false)
         }
     }

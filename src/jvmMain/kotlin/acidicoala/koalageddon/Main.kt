@@ -35,7 +35,7 @@ fun main() = application {
         icon = painterResource(Bitmaps.Icon),
         title = "Koalageddon"
     ) {
-        window.minimumSize = Dimension(640, 480)
+        window.minimumSize = Dimension(720, 480)
 
         val appScope = rememberCoroutineScope()
 

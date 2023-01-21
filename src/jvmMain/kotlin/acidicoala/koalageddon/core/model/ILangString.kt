@@ -9,18 +9,18 @@ import androidx.compose.runtime.Composable
  * Use [LangString] to instantiate a new instance of [ILangString].
  */
 interface ILangString {
-    fun Strings.text(): String
+    fun text(strings: Strings): String
 
     val text: String
         @Composable
-        get() = LocalStrings.current.text()
+        get() = text(LocalStrings.current)
 }
 
 class LangString(
     private vararg val placeholders: Pair<String, String>,
     private val factory: Strings.() -> String
 ) : ILangString {
-    override fun Strings.text() = placeholders.fold(initial = factory(this)) { acc, (key, value) ->
+    override fun text(strings: Strings) = placeholders.fold(initial = factory(strings)) { acc, (key, value) ->
         acc.replace(key, value)
     }
 }
