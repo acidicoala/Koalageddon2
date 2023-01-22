@@ -18,6 +18,7 @@ import kotlinx.coroutines.sync.withLock
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
+import java.net.URI
 import kotlin.time.Duration.Companion.milliseconds
 
 class SteamScreenModel(
@@ -39,9 +40,14 @@ class SteamScreenModel(
     private val updateUnlockerConfig: UpdateUnlockerConfig by instance()
     private val modifyInstallationStatus: ModifyInstallationStatus by instance()
     private val isProcessRunning: IsProcessRunning by instance()
+    private val openResourceLink: OpenResourceLink by instance()
 
     private val scope = CoroutineScope(Dispatchers.IO)
     private val mutex = Mutex()
+
+    fun onUnlockerClick() {
+        openResourceLink(URI.create(SmokeAPI.homePage))
+    }
 
     fun onRefreshState() {
         scope.launch {

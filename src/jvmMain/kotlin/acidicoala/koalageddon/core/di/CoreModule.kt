@@ -30,4 +30,5 @@ val coreModule = DI.Module(name = "Core") {
     bindProvider { IsProcessRunning(di) }
     bindProvider { ForceCloseProcess(di) }
     bindProvider { GetHumanReadableSize(di) }
+    bindProvider { GetFormattedTimestamp(di) }
 }

@@ -20,6 +20,7 @@ sealed class KoalaTool(
     val majorVersion: Int
 ) {
     val configName = "$name.config.json"
+    val homePage = "https://github.com/acidicoala/$name#readme"
     val gitHubReleaseUrl = "https://api.github.com/repos/acidicoala/$name/releases"
 
     interface IConfig
@@ -87,17 +88,16 @@ sealed class KoalaTool(
             val dlcs: Map<String, String> = mapOf()
         )
 
-        // TODO: Version validation
         @Serializable
         data class Config(
             val logging: Boolean = false,
+            @SerialName("\$version") val version: Int = 2,
             @SerialName("unlock_family_sharing") val unlockFamilySharing: Boolean = true,
             @SerialName("default_app_status") val defaultAppStatus: AppStatus = AppStatus.Unlocked,
             @SerialName("override_app_status") val overrideAppStatus: Map<String, AppStatus> = mapOf(),
             @SerialName("override_dlc_status") val overrideDlcStatus: Map<String, AppStatus> = mapOf(),
             @SerialName("auto_inject_inventory") val autoInjectInventory: Boolean = true,
             @SerialName("extra_inventory_items") val extraInventoryItems: List<Int> = listOf(),
-            @SerialName("\$version") val version: Int = 2,
             @SerialName("store_config") val storeConfig: JsonObject? = null,
             @SerialName("extra_dlcs") val extraDlcs: Map<String, App> = mapOf(),
         ) : IConfig

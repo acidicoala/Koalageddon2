@@ -16,7 +16,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +37,9 @@ fun main() = application {
         icon = painterResource(Bitmaps.Icon),
         title = "Koalageddon"
     ) {
-        window.minimumSize = Dimension(720, 480)
+        with(LocalDensity.current) {
+            window.minimumSize = Dimension(720.dp.toPx().toInt(), 480.dp.toPx().toInt())
+        }
 
         val appScope = rememberCoroutineScope()
 

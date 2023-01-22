@@ -7,6 +7,7 @@ import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerialName
@@ -31,6 +32,7 @@ class DownloadAndCacheKoalaTool(override val di: DI) : DIAware {
     data class GitHubRelease(
         @SerialName("tag_name")
         val tagName: String,
+        val prerelease: Boolean,
         val assets: List<GitHubAsset>,
     ) {
         @Transient
@@ -39,6 +41,7 @@ class DownloadAndCacheKoalaTool(override val di: DI) : DIAware {
 
     private val paths: AppPaths by instance()
     private val logger: AppLogger by instance()
+    private val settingsFlow: MutableStateFlow<Settings> by instance()
     private val getHumanReadableSize: GetHumanReadableSize by instance()
 
     suspend operator fun invoke(tool: KoalaTool) = channelFlow<ILangString> {
@@ -46,9 +49,9 @@ class DownloadAndCacheKoalaTool(override val di: DI) : DIAware {
 
         val releases = httpClient.get(tool.gitHubReleaseUrl).body<List<GitHubRelease>>()
 
-        // TODO: Settings to toggle pre-release releases
         val release = releases
             .sortedByDescending { it.version }
+            .filter { settingsFlow.value.downloadPreReleaseVersions || !it.prerelease }
             .find { it.version?.major == tool.majorVersion }
             ?: throw Exception("Failed to find latest supported ${tool.name} release in GitHub")
 

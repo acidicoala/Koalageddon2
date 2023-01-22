@@ -4,14 +4,12 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("org.jetbrains.compose")
-
-    // https://github.com/gmazzo/gradle-buildconfig-plugin
-    id("com.github.gmazzo.buildconfig") version "3.1.0"
+    id("com.github.gmazzo.buildconfig") version "3.1.0" // https://github.com/gmazzo/gradle-buildconfig-plugin
 }
 
 val author = "acidicoala"
 val projectName = "Koalageddon"
-val appVersion = "0.1.0"
+val appVersion = "2.0.0"
 
 group = author
 version = appVersion
@@ -88,7 +86,7 @@ compose.desktop {
             packageVersion = appVersion
             version = appVersion
             description = "A multi-store DLC Unlocker"
-            copyright = "Fuck the copyright 🖕"
+            copyright = "Fuck the copyright"
             vendor = author
             licenseFile.set(project.file("UNLICENSE.txt"))
 
@@ -96,9 +94,7 @@ compose.desktop {
                 iconFile.set(project.file("icon.ico"))
                 menuGroup = projectName
                 upgradeUuid = "B04EF055-B8A7-423E-8E6F-3835AE943C4E"
-                // TODO:
-                // dirChooser?
-                // Shortcut?
+                shortcut = true
             }
 
             targetFormats(TargetFormat.Msi)
@@ -106,9 +102,9 @@ compose.desktop {
             // run `gradle suggestRuntimeModules` to get this list
             modules("java.instrument", "java.management", "java.naming", "java.sql", "jdk.unsupported")
         }
+
         buildTypes.release.proguard {
-            // TODO: Find ways to enable it
-            isEnabled.set(false)
+            configurationFiles.from("rules.pro")
         }
     }
 }

@@ -1,18 +1,19 @@
 package acidicoala.koalageddon.steam.ui
 
-import acidicoala.koalageddon.core.model.InstallationStatus
-import acidicoala.koalageddon.core.model.LangString
-import acidicoala.koalageddon.core.model.OpenState
-import acidicoala.koalageddon.core.model.Store
+import acidicoala.koalageddon.core.model.*
 import acidicoala.koalageddon.core.ui.composable.*
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.AppTheme
 import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
 import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.TooltipArea
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material.Divider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
@@ -22,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import org.kodein.di.compose.localDI
 import org.kodein.di.instance
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SteamStoreScreen() {
     val screenModel: SteamScreenModel by localDI().instance()
@@ -48,6 +48,14 @@ fun SteamStoreScreen() {
             RunningStatusOption(
                 label = LangString("%0" to Store.Steam.executable) { storeProcessStatus }.text,
                 running = state.isSteamRunning
+            )
+
+            ButtonOption(
+                label = strings.unlocker,
+                buttonIcon = Icons.Default.OpenInNew,
+                buttonLabel = KoalaTool.SmokeAPI.name,
+                outlined = true,
+                onClick = screenModel::onUnlockerClick
             )
 
             Divider(Modifier.padding(vertical = 8.dp))
@@ -112,32 +120,9 @@ fun SteamStoreScreen() {
                     icon = Icons.Default.SettingsApplications, label = strings.configuration
                 )
 
-                // TODO: Restore default settings button
-
-                Box {
-                    TooltipArea(
-                        tooltip = {
-                            Card(elevation = 8.dp) {
-                                Text(
-                                    text = strings.reloadConfigTooltip,
-                                    modifier = Modifier.padding(DefaultContentPadding)
-                                )
-                            }
-                        },
-                    ) {
-                        ButtonOption(
-                            label = "",
-                            enabled = state.isSteamRunning,
-                            buttonIcon = Icons.Default.Refresh,
-                            buttonLabel = strings.reloadConfig,
-                            onClick = screenModel::onReloadConfig
-                        )
-                    }
-                }
-
                 SteamConfiguration(
                     config = config,
-                    onConfigChange = screenModel::onConfigChange,
+                    screenModel = screenModel,
                 )
             }
         }

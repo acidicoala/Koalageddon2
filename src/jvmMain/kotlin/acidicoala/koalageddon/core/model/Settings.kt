@@ -3,12 +3,27 @@ package acidicoala.koalageddon.core.model
 import acidicoala.koalageddon.core.values.Strings
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import java.util.Locale
 
 @Serializable
 data class Settings constructor(
     val theme: Theme = Theme.Dark,
-    val language: Language = Language.English, // TODO: Auto-detect system lang
+    val language: Language = systemLanguage,
+    val downloadPreReleaseVersions: Boolean = false,
 ) {
+    companion object {
+        val systemLanguage: Language
+            get() {
+                val langTag = Locale.getDefault().toLanguageTag()
+
+                return when {
+                    langTag.startsWith("de", ignoreCase = true) -> Language.German
+                    langTag.startsWith("ru", ignoreCase = true) -> Language.Russian
+                    else -> Language.English
+                }
+            }
+    }
+
     @Serializable
     enum class Theme : ILangString {
         Dark {
@@ -20,11 +35,14 @@ data class Settings constructor(
     }
 
     @Serializable
-    enum class Language : ILangString {
-        English {
+    enum class Language(val locale: Locale) : ILangString {
+        English(Locale.ENGLISH) {
             override fun text(strings: Strings) = strings.languageEn
         },
-        Russian {
+        German(Locale.GERMAN) {
+            override fun text(strings: Strings) = strings.languageDe
+        },
+        Russian(Locale("ru")) {
             override fun text(strings: Strings) = strings.languageRu
         }
     }
@@ -32,6 +50,7 @@ data class Settings constructor(
     @Transient
     val strings = when (language) {
         Language.English -> Strings.English
+        Language.German -> Strings.German
         Language.Russian -> Strings.Russian
     }
 }

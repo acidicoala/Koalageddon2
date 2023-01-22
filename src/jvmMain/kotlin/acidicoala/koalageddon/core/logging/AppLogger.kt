@@ -42,7 +42,8 @@ class AppLogger(override val di: DI) : DIAware {
 
         logger = LoggerFactory.getLogger(AppLogger::class.java)
 
-        val compileTime = SimpleDateFormat.getDateTimeInstance().format(Date.from(Instant.now()))
+        val compileTime =
+            SimpleDateFormat.getDateTimeInstance().format(Date.from(Instant.ofEpochMilli(BuildConfig.BUILD_TIME)))
         info("🐨💥 Koalageddon v${BuildConfig.APP_VERSION} | Compiled at '$compileTime'")
     }
 
@@ -69,7 +70,7 @@ class AppLogger(override val di: DI) : DIAware {
         return "$levelEmoji│ $time │ $lineSource ┃ $sanitisedMessage"
     }
 
-    fun trace(message: String) = logger.trace(format("🟦", message))
+    fun trace(message: String) = logger.trace(format("🟦", message)) // Hide in release?
     fun debug(message: String) = logger.debug(format("⬛", message))
     fun info(message: String) = logger.info(format("🟩", message))
     fun warn(message: String) = logger.warn(format("🟨", message))

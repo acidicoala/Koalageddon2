@@ -21,7 +21,7 @@ class ReloadSteamConfig(override val di: DI) : DIAware {
         withContext(context = Dispatchers.IO) {
             try {
                 val response = sendPipeRequest(
-                    pipeId = "smoke_api.store_mode",
+                    pipeId = "smokeapi.store.steam",
                     request = SendPipeRequest.Request(name = "config::reload")
                 )
 

@@ -27,13 +27,14 @@ import java.util.*
 
 @Composable
 fun IntListOption(
+    resetKey: Any?,
     label: String,
     itemLabel: String,
     list: List<Int>,
     onListChange: (List<Int>) -> Unit,
     defaultValue: Int = 0
 ) {
-    val listItems = remember { list.toMutableStateList() }
+    val listItems = remember(resetKey) { list.toMutableStateList() }
 
     fun onChange(transform: SnapshotStateList<Int>.() -> Unit) {
         listItems.apply(transform)
@@ -94,6 +95,7 @@ fun IntListOption(
 
 @Composable
 fun <V : ILangString> IntMapDropdownOption(
+    resetKey: Any?,
     label: String,
     keyLabel: String,
     map: Map<String, V>,
@@ -102,6 +104,7 @@ fun <V : ILangString> IntMapDropdownOption(
     onMapChange: (Map<String, V>) -> Unit
 ) {
     MapDropdownOption(
+        resetKey = resetKey,
         label = label,
         keyLabel = keyLabel,
         map = map,
@@ -115,6 +118,7 @@ fun <V : ILangString> IntMapDropdownOption(
 
 @Composable
 private fun <V : ILangString> MapDropdownOption(
+    resetKey: Any?,
     label: String,
     keyLabel: String,
     map: Map<String, V>,
@@ -124,7 +128,7 @@ private fun <V : ILangString> MapDropdownOption(
     keyMapper: (String) -> String?,
     onMapChange: (Map<String, V>) -> Unit
 ) {
-    val keyValuePairs = remember {
+    val keyValuePairs = remember(resetKey) {
         map.entries
             .map { it.toPair() }
             .toMutableStateList()

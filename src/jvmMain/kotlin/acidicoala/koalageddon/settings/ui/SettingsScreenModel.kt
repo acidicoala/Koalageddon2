@@ -1,16 +1,17 @@
 package acidicoala.koalageddon.settings.ui
 
+import acidicoala.koalageddon.BuildConfig
 import acidicoala.koalageddon.core.logging.AppLogger
-import acidicoala.koalageddon.core.model.*
-import acidicoala.koalageddon.core.use_case.GetHumanReadableSize
-import acidicoala.koalageddon.core.use_case.OpenResourceLink
-import acidicoala.koalageddon.core.use_case.SaveSettings
-import acidicoala.koalageddon.core.use_case.ShowSnackbar
+import acidicoala.koalageddon.core.model.AppPaths
+import acidicoala.koalageddon.core.model.LangString
+import acidicoala.koalageddon.core.model.Settings
+import acidicoala.koalageddon.core.use_case.*
 import acidicoala.koalageddon.settings.domain.use_case.ClearCache
 import acidicoala.koalageddon.settings.domain.use_case.GetCacheSize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.kodein.di.DI
@@ -23,6 +24,7 @@ class SettingsScreenModel(
 ) : DIAware, StateFlow<SettingsScreenModel.State> by stateFlow {
     data class State(
         val cacheSize: String = "",
+        val formattedBuildTimestamp: String = "",
     )
 
     private val logger: AppLogger by instance()
@@ -34,13 +36,26 @@ class SettingsScreenModel(
     private val getCacheSize: GetCacheSize by instance()
     private val clearCache: ClearCache by instance()
     private val getHumanReadableSize: GetHumanReadableSize by instance()
+    private val getFormattedTimestamp: GetFormattedTimestamp by instance()
+    private val settingsFlow: MutableStateFlow<Settings> by instance()
 
-    fun onRefreshStatus() {
+    init {
         scope.launch {
-            stateFlow.update {
-
-                it.copy(cacheSize = getHumanReadableSize(getCacheSize()))
+            settingsFlow.collectLatest {
+                onRefreshStatus()
             }
+        }
+    }
+
+    private fun onRefreshStatus() {
+        stateFlow.update {
+            it.copy(
+                cacheSize = getHumanReadableSize(getCacheSize()),
+                formattedBuildTimestamp = getFormattedTimestamp(
+                    BuildConfig.BUILD_TIME,
+                    settingsFlow.value.language.locale
+                )
+            )
         }
     }
 
@@ -56,9 +71,15 @@ class SettingsScreenModel(
         saveSettings { copy(language = language) }
     }
 
+    fun onDownloadPreReleaseVersionsChanged(download: Boolean) {
+        logger.info("Settings download pre-release versions to $download")
+
+        saveSettings { copy(downloadPreReleaseVersions = download) }
+    }
+
     fun onCheckForUpdates() {
         scope.launch {
-            showSnackbar(LangString { inDevelopment }) // TODO
+            showSnackbar(LangString { inDevelopment }) // TODO: Implement
         }
     }
 
@@ -70,7 +91,6 @@ class SettingsScreenModel(
         scope.launch {
             clearCache()
             onRefreshStatus()
-
         }
     }
 }
