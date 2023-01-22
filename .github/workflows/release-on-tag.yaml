@@ -35,7 +35,7 @@ jobs:
   release:
     name: Publish a release
     runs-on: ubuntu-latest
-    needs: build-project
+    needs: build
     permissions:
       contents: write
     steps:
