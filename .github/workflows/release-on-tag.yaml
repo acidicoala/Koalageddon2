@@ -5,7 +5,7 @@ on:
       - '*'
 jobs:
   build:
-    name: Build project distributable
+    name: Build an installer
     runs-on: windows-2022
     steps:
       - name: 📥 Checkout the code
@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: installer
-          path: build/compose/main-release/msi/Koalageddon-*.msi
+          path: build/compose/binaries/main-release/msi/Koalageddon-*.msi
   release:
     name: Publish a release
     runs-on: ubuntu-latest
