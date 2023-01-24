@@ -5,6 +5,8 @@ image::src/jvmMain/resources/images/icon.png[,256]
 A multi-store DLC unlocker.
 Currently, in development.
 
+*https://cs.rin.ru/forum/viewtopic.php?p=2758149#p2758149[Announcement post]*
+
 Implemented stores:
 
 * _Steam_ via SmokeAPI (store mode)
