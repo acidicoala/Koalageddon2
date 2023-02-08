@@ -19,8 +19,8 @@ data class Settings constructor(
                 return when {
                     langTag.startsWith("de", ignoreCase = true) -> Language.German
                     langTag.startsWith("ru", ignoreCase = true) -> Language.Russian
-                    langTag.startsWith("zh", ignoreCase = true) -> Language.SimplifiedChinese
                     langTag.startsWith("pt", ignoreCase = true) -> Language.Brazilian_Portuguese
+                    langTag.startsWith("zh", ignoreCase = true) -> Language.SimplifiedChinese
                     else -> Language.English
                 }
             }
@@ -59,7 +59,7 @@ data class Settings constructor(
         Language.English -> Strings.English
         Language.German -> Strings.German
         Language.Russian -> Strings.Russian
-        Language.SimplifiedChinese -> Strings.SimplifiedChinese
         Language.Brazilian_Portuguese -> Strings.Brazilian_Portuguese
+        Language.SimplifiedChinese -> Strings.SimplifiedChinese
     }
 }
