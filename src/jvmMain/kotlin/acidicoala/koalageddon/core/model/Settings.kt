@@ -47,11 +47,11 @@ data class Settings constructor(
         Russian(Locale("ru")) {
             override fun text(strings: Strings) = strings.languageRu
         },
-        SimplifiedChinese(Locale.SIMPLIFIED_CHINESE) {
-            override fun text(strings: Strings) = strings.languageCHS
-        },
         Brazilian_Portuguese(Locale("pt")) {
             override fun text(strings: Strings) = strings.languagePt_BR
+        },
+        SimplifiedChinese(Locale.SIMPLIFIED_CHINESE) {
+            override fun text(strings: Strings) = strings.languageCHS
         }
     }
 
