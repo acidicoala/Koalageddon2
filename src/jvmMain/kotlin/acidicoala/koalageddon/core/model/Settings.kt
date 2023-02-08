@@ -19,6 +19,7 @@ data class Settings constructor(
                 return when {
                     langTag.startsWith("de", ignoreCase = true) -> Language.German
                     langTag.startsWith("ru", ignoreCase = true) -> Language.Russian
+                    langTag.startsWith("zh", ignoreCase = true) -> Language.SimplifiedChinese
                     else -> Language.English
                 }
             }
@@ -44,6 +45,9 @@ data class Settings constructor(
         },
         Russian(Locale("ru")) {
             override fun text(strings: Strings) = strings.languageRu
+        },
+        SimplifiedChinese(Locale.SIMPLIFIED_CHINESE){
+            override fun text(strings: Strings) = strings.languageCHS
         }
     }
 
@@ -52,5 +56,6 @@ data class Settings constructor(
         Language.English -> Strings.English
         Language.German -> Strings.German
         Language.Russian -> Strings.Russian
+        Language.SimplifiedChinese -> Strings.SimplifiedChinese
     }
 }
