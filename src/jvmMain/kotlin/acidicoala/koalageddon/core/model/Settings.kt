@@ -18,6 +18,7 @@ data class Settings constructor(
 
                 return when {
                     langTag.startsWith("de", ignoreCase = true) -> Language.German
+                    langTag.startsWith("it", ignoreCase = true) -> Language.Italian
                     langTag.startsWith("ru", ignoreCase = true) -> Language.Russian
                     langTag.startsWith("pt", ignoreCase = true) -> Language.Brazilian_Portuguese
                     else -> Language.English
@@ -43,6 +44,9 @@ data class Settings constructor(
         German(Locale.GERMAN) {
             override fun text(strings: Strings) = strings.languageDe
         },
+        Italian(Locale.ITALIAN) {
+            override fun text(strings: Strings) = strings.languageIt
+        },
         Russian(Locale("ru")) {
             override fun text(strings: Strings) = strings.languageRu
         },
@@ -55,6 +59,7 @@ data class Settings constructor(
     val strings = when (language) {
         Language.English -> Strings.English
         Language.German -> Strings.German
+        Language.Italian -> Strings.Italian
         Language.Russian -> Strings.Russian
         Language.Brazilian_Portuguese -> Strings.Brazilian_Portuguese
     }
