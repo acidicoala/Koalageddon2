@@ -58,6 +58,15 @@ fun SteamStoreScreen() {
                 onClick = screenModel::onUnlockerClick
             )
 
+            ButtonOption(
+                label = "",
+                buttonIcon = Icons.Default.Summarize,
+                buttonLabel = strings.openLogFile,
+                enabled = state.logFileExists,
+                outlined = true,
+                onClick = screenModel::onOpenLogs
+            )
+
             Divider(Modifier.padding(vertical = 8.dp))
 
             SectionLabel(

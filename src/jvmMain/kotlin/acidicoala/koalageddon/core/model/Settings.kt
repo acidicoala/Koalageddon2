@@ -20,7 +20,7 @@ data class Settings constructor(
                     langTag.startsWith("de", ignoreCase = true) -> Language.German
                     langTag.startsWith("it", ignoreCase = true) -> Language.Italian
                     langTag.startsWith("ru", ignoreCase = true) -> Language.Russian
-                    langTag.startsWith("pt", ignoreCase = true) -> Language.Brazilian_Portuguese
+                    langTag.startsWith("pt", ignoreCase = true) -> Language.BrazilianPortuguese
                     langTag.startsWith("zh", ignoreCase = true) -> Language.SimplifiedChinese
                     langTag.startsWith("tr", ignoreCase = true) -> Language.Turkish
                     else -> Language.English
@@ -38,39 +38,41 @@ data class Settings constructor(
         }
     }
 
+    // Languages are sorted according to their ISO 639-1 code
+
     @Serializable
     enum class Language(val locale: Locale) : ILangString {
-        English(Locale.ENGLISH) {
-            override fun text(strings: Strings) = strings.languageEn
-        },
-        German(Locale.GERMAN) {
+        German(Locale("de")) {
             override fun text(strings: Strings) = strings.languageDe
         },
-        Italian(Locale.ITALIAN) {
+        English(Locale("en")) {
+            override fun text(strings: Strings) = strings.languageEn
+        },
+        Italian(Locale("it")) {
             override fun text(strings: Strings) = strings.languageIt
+        },
+        BrazilianPortuguese(Locale("pt", "BR")) {
+            override fun text(strings: Strings) = strings.languagePtBr
         },
         Russian(Locale("ru")) {
             override fun text(strings: Strings) = strings.languageRu
         },
-        Brazilian_Portuguese(Locale("pt")) {
-            override fun text(strings: Strings) = strings.languagePt_BR
-        },
-        SimplifiedChinese(Locale.SIMPLIFIED_CHINESE) {
-            override fun text(strings: Strings) = strings.languageCHS
-        },
         Turkish(Locale("tr")) {
             override fun text(strings: Strings) = strings.languageTr
-        }
+        },
+        SimplifiedChinese(Locale("zh", "CN")) {
+            override fun text(strings: Strings) = strings.languageZhCn
+        },
     }
 
     @Transient
     val strings = when (language) {
-        Language.English -> Strings.English
         Language.German -> Strings.German
+        Language.English -> Strings.English
         Language.Italian -> Strings.Italian
+        Language.BrazilianPortuguese -> Strings.BrazilianPortuguese
         Language.Russian -> Strings.Russian
-        Language.Brazilian_Portuguese -> Strings.Brazilian_Portuguese
-        Language.SimplifiedChinese -> Strings.SimplifiedChinese
         Language.Turkish -> Strings.Turkish
+        Language.SimplifiedChinese -> Strings.SimplifiedChinese
     }
 }

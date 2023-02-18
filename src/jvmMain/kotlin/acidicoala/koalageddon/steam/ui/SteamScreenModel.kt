@@ -19,6 +19,7 @@ import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
 import java.net.URI
+import kotlin.io.path.exists
 import kotlin.time.Duration.Companion.milliseconds
 
 class SteamScreenModel(
@@ -30,6 +31,7 @@ class SteamScreenModel(
         val installationChecklist: InstallationChecklist? = null,
         val config: Config? = null,
         val isSteamRunning: Boolean = false,
+        val logFileExists: Boolean = false,
     )
 
     private val paths: AppPaths by instance()
@@ -49,6 +51,10 @@ class SteamScreenModel(
         openResourceLink(URI.create(SmokeAPI.homePage))
     }
 
+    fun onOpenLogs() {
+        openResourceLink(paths.getUnlockerLog(SmokeAPI))
+    }
+
     fun onRefreshState() {
         scope.launch {
             stateFlow.update {
@@ -60,6 +66,7 @@ class SteamScreenModel(
 
             stateFlow.update {
                 it.copy(
+                    logFileExists = paths.getUnlockerLog(SmokeAPI).exists(),
                     installationChecklist = getInstallationChecklist(store = Store.Steam),
                     config = try {
                         SmokeAPI.parseConfig(paths.getUnlockerConfig(SmokeAPI))

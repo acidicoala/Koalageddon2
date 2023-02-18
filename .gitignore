@@ -40,3 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+## Seems to me a bug to unzip into the project root dir
+/wix**

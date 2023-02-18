@@ -52,7 +52,10 @@ fun HomeScreen() {
     var selectedTab: HomeTab by remember { mutableStateOf(HomeTab.Start) }
 
     val homeTabs = remember {
-        HomeTab.values().filter { it.store?.installed ?: true }.sortedBy(HomeTab::priority).map(VerticalTabElement::Tab)
+        HomeTab.values()
+            .filter { it.store?.installed ?: true }
+            .sortedBy(HomeTab::priority)
+            .map(VerticalTabElement::Tab)
             .toMutableList<VerticalTabElement>().apply {
                 add(2, VerticalTabElement.Spacer)
             }

@@ -20,6 +20,7 @@ sealed class KoalaTool(
     val majorVersion: Int
 ) {
     val configName = "$name.config.json"
+    val logName = "$name.log.log"
     val homePage = "https://github.com/acidicoala/$name#readme"
     val gitHubReleaseUrl = "https://api.github.com/repos/acidicoala/$name/releases"
 

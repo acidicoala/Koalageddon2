@@ -34,6 +34,8 @@ class AppPaths {
 
     fun getUnlockerConfig(unlocker: KoalaTool) = getUnlockerDir(unlocker) / unlocker.configName
 
+    fun getUnlockerLog(unlocker: KoalaTool) = getUnlockerDir(unlocker) / unlocker.logName
+
     fun getUnlockerDll(unlocker: KoalaTool) = getUnlockerDir(unlocker) / "${unlocker.name}.dll"
 
     fun getCacheAsset(filename: String) = cacheDir / filename

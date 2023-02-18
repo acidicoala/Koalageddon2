@@ -1,16 +1,20 @@
 package acidicoala.koalageddon.settings.ui
 
 import acidicoala.koalageddon.core.model.LangString
+import acidicoala.koalageddon.core.model.Settings
+import acidicoala.koalageddon.core.ui.composable.*
 import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.DefaultContentPadding
 import acidicoala.koalageddon.core.ui.theme.DefaultMaxWidth
-import acidicoala.koalageddon.core.model.Settings
-import acidicoala.koalageddon.core.ui.composable.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.Divider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.Translate
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,14 +44,19 @@ fun SettingsScreen() {
                 label = strings.theme,
                 items = Settings.Theme.values(),
                 selected = settings.theme,
-                onSelect = screenModel::onThemeChanged
+                onSelect = screenModel::onThemeChanged,
+                icon = when (settings.theme) {
+                    Settings.Theme.Dark -> Icons.Default.DarkMode
+                    Settings.Theme.Light -> Icons.Default.LightMode
+                }
             )
 
             DropdownOption(
                 label = strings.language,
                 items = Settings.Language.values(),
                 selected = settings.language,
-                onSelect = screenModel::onLanguageChanged
+                onSelect = screenModel::onLanguageChanged,
+                icon = Icons.Default.Translate
             )
 
             SwitchOption(

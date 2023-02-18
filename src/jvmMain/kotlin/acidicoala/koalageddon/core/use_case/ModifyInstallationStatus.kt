@@ -63,7 +63,12 @@ class ModifyInstallationStatus(override val di: DI) : DIAware {
             destination = paths.getUnlockerDll(unlocker),
         )
 
-        unlocker.writeConfig(path = paths.getUnlockerConfig(unlocker), unlocker.defaultConfig)
+        // Ensure that config file exists
+        try {
+            unlocker.parseConfig(paths.getUnlockerConfig(unlocker))
+        } catch (e: Exception) {
+            unlocker.writeConfig(path = paths.getUnlockerConfig(unlocker), unlocker.defaultConfig)
+        }
     }
 
     private fun uninstall(store: Store) = channelFlow<ILangString> {

@@ -9,7 +9,7 @@ plugins {
 
 val author = "acidicoala"
 val projectName = "Koalageddon"
-val appVersion = "2.0.0"
+val appVersion = "2.0.1"
 
 group = author
 version = appVersion
@@ -48,7 +48,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 
                 // https://github.com/kosi-libs/Kodein
-                implementation("org.kodein.di:kodein-di-framework-compose:7.16.0")
+                implementation("org.kodein.di:kodein-di-framework-compose:7.18.0")
 
                 // https://github.com/harawata/appdirs
                 implementation("net.harawata:appdirs:1.2.1")
@@ -57,7 +57,7 @@ kotlin {
                 implementation("org.slf4j:slf4j-api:2.0.6")
 
                 // https://github.com/tinylog-org/tinylog
-                val tinylogVersion = "2.5.0"
+                val tinylogVersion = "2.6.0"
                 implementation("org.tinylog:tinylog-impl:$tinylogVersion")
                 implementation("org.tinylog:slf4j-tinylog:$tinylogVersion")
 
@@ -65,7 +65,7 @@ kotlin {
                 implementation("com.dorkbox:PeParser:3.1")
 
                 // https://github.com/ktorio/ktor
-                val ktorVersion = "2.2.2"
+                val ktorVersion = "2.2.3"
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")

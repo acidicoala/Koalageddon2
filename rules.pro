@@ -10,6 +10,7 @@
 
 # Tinylog <-> SLF4J bridge
 -keep class org.tinylog.** { *; }
+-keep class org.slf4j.** { *; }
 
 # Java native access
 # Source: https://github.com/java-native-access/jna/issues/1187#issuecomment-626251894
