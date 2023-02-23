@@ -42,6 +42,7 @@ sealed class Strings(
     val languagePtBr: String = "Português (Brasil)",
     val languageZhCn: String = "简体中文",
     val languageTr: String = "Türkçe",
+    val languageFr: String = "Français",
     val logging: String,
     val modifyInstallation: String,
     val ok: String = "OK",
