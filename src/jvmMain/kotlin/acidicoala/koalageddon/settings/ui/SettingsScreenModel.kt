@@ -38,6 +38,7 @@ class SettingsScreenModel(
     private val getHumanReadableSize: GetHumanReadableSize by instance()
     private val getFormattedTimestamp: GetFormattedTimestamp by instance()
     private val settingsFlow: MutableStateFlow<Settings> by instance()
+    private val httpClientUtil: HttpClientUtil by instance()
 
     init {
         scope.launch {
@@ -75,6 +76,29 @@ class SettingsScreenModel(
         logger.info("Settings download pre-release versions to $download")
 
         saveSettings { copy(downloadPreReleaseVersions = download) }
+    }
+
+    fun onSaveNewProxy(proxy: String){
+        logger.info("Settings proxy to $proxy")
+
+        val pattern = Regex("^(http)://(([a-zA-Z0-9\\-_]+\\.)+[a-zA-Z0-9\\-_]+)(:[0-9]+)?")
+        if(!pattern.matches(proxy)){
+            scope.launch {
+                showSnackbar(LangString { proxyUrlIllegal })
+            }
+            return
+        }
+        saveSettings { copy(proxy = proxy)}
+
+        httpClientUtil.invoke()
+    }
+
+    fun onEnableProxyChanged(enable: Boolean){
+        logger.info("Settings use proxy to $enable")
+
+        saveSettings { copy(enableProxy = enable)}
+
+        httpClientUtil.invoke()
     }
 
     fun onCheckForUpdates() {

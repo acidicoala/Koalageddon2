@@ -6,6 +6,7 @@ import acidicoala.koalageddon.core.ui.composition.LocalSettings
 import acidicoala.koalageddon.core.ui.composition.LocalStrings
 import acidicoala.koalageddon.core.ui.theme.AppRippleTheme
 import acidicoala.koalageddon.core.ui.theme.AppTheme
+import acidicoala.koalageddon.core.use_case.HttpClientUtil
 import acidicoala.koalageddon.core.values.Bitmaps
 import acidicoala.koalageddon.home.ui.HomeScreen
 import acidicoala.koalageddon.settings.di.settingsModule
@@ -49,11 +50,15 @@ fun main() = application {
         }) {
             val settingsFlow: MutableStateFlow<Settings> by localDI().instance()
             val settings by settingsFlow.collectAsState()
+            val httpClientUtil: HttpClientUtil by localDI().instance()
 
             val colors = when (settings.theme) {
                 Settings.Theme.Dark -> AppTheme.Material.darkColors
                 Settings.Theme.Light -> AppTheme.Material.lightColors
             }
+
+            //settingProxyFirst
+            httpClientUtil.invoke()
 
             // CompositionLocalProvider(LocalElevationOverlay provides null){
 

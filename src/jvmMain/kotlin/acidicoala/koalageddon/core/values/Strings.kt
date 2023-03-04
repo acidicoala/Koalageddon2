@@ -80,6 +80,10 @@ sealed class Strings(
     val unlocker: String,
     val unlockFamilySharing: String,
     val version: String,
+    val proxy: String = "Use proxy",
+    val enableProxy: String = "Enable proxy",
+    val inputProxyPlaceHolder: String = "Enter your proxy here",
+    val proxyUrlIllegal: String = "Proxy URL is illegal. Only available for http:// protocal",
 ) {
     object German : Strings(
         autoInjectInventory = "Gegenstände automatisch zum Steam Inventar unterstützter Spiele hinzufügen",

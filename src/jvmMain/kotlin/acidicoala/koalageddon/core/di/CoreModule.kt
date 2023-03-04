@@ -31,4 +31,5 @@ val coreModule = DI.Module(name = "Core") {
     bindProvider { ForceCloseProcess(di) }
     bindProvider { GetHumanReadableSize(di) }
     bindProvider { GetFormattedTimestamp(di) }
+    bindProvider { HttpClientUtil(di) }
 }
