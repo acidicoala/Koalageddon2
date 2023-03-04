@@ -67,6 +67,21 @@ fun SettingsScreen() {
 
             Divider(Modifier.padding(vertical = 8.dp))
 
+            SwitchOption(
+                label = strings.enableProxy,
+                checked = settings.enableProxy,
+                onCheckedChange = screenModel::onEnableProxyChanged
+            )
+
+            InputOption(
+                value = settings.proxy,
+                label = strings.proxy,
+                placeholder = strings.inputProxyPlaceHolder,
+                onClick = screenModel::onSaveNewProxy
+            )
+
+            Divider(Modifier.padding(vertical = 8.dp))
+
             ButtonOption(
                 label = "",
                 buttonLabel = strings.openDataDirectory,

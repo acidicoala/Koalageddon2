@@ -10,6 +10,8 @@ data class Settings constructor(
     val theme: Theme = Theme.Dark,
     val language: Language = systemLanguage,
     val downloadPreReleaseVersions: Boolean = false,
+    val proxy: String = "",
+    val enableProxy: Boolean = false
 ) {
     companion object {
         val systemLanguage: Language
