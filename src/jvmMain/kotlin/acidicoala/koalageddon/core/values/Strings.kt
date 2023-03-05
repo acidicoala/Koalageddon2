@@ -1,7 +1,5 @@
 package acidicoala.koalageddon.core.values
 
-import acidicoala.koalageddon.BuildConfig
-
 sealed class Strings(
     val appId: String = "App ID",
     val appStatusOriginal: String,
@@ -35,14 +33,14 @@ sealed class Strings(
     val installed: String,
     val itemId: String = "Item ID",
     val language: String,
-    val languageEn: String = "English",
     val languageDe: String = "Deutsch",
-    val languageIt: String = "Italiano",
-    val languageRu: String = "Русский",
-    val languagePtBr: String = "Português (Brasil)",
-    val languageZhCn: String = "简体中文",
-    val languageTr: String = "Türkçe",
+    val languageEn: String = "English",
     val languageFr: String = "Français",
+    val languageIt: String = "Italiano",
+    val languagePtBr: String = "Português (Brasil)",
+    val languageRu: String = "Русский",
+    val languageTr: String = "Türkçe",
+    val languageZhCn: String = "简体中文",
     val logging: String,
     val modifyInstallation: String,
     val ok: String = "OK",
@@ -144,7 +142,7 @@ sealed class Strings(
         remove = "Entfernen",
         unlocker = "Unlocker",
         unlockFamilySharing = "Steam Family Sharing freischalten",
-        version = "Version v${BuildConfig.APP_VERSION}",
+        version = "Version v%0",
     )
 
     object English : Strings(
@@ -210,7 +208,73 @@ sealed class Strings(
         remove = "Remove",
         unlocker = "Unlocker",
         unlockFamilySharing = "Unlock Family Sharing",
-        version = "Version v${BuildConfig.APP_VERSION}",
+        version = "Version v%0",
+    )
+
+    object French : Strings(
+        autoInjectInventory = "Injection automatique des objets dans l'inventaire Steam d'un jeu",
+        appStatusOriginal = "Original",
+        appStatusUnlocked = "Débloqué",
+        appStatusLocked = "Bloqué",
+        buildTimestamp = "Date du build",
+        cacheSize = "Taille du cache : %0",
+        cancel = "Annuler",
+        checkForUpdates = "Vérifier les mises à jour",
+        clearCache = "Nettoyer le cache",
+        computing = "Calcul",
+        configuration = "Configuration",
+        confirmForceModifyInstallationMessage = "Le processus %0 est en cours d'exécutuon sur votre système. " +
+                "Pour modifier l'état d'installation, il est nécessaire de mettre fin à la tâche. " +
+                "Voulez-vous forcer l'arrêt du processus pour mettre à jour l'état d'installation ?",
+        confirmForceModifyInstallationTitle = "Continuer l'installation / supprimer ?",
+        defaultAppStatus = "État des jeux par défaut",
+        downloadingRelease = "Téléchargement de la mise à jour %0 : %1 sur %2",
+        downloadPreReleaseVersions = "Télécharger les préversions du logiciel",
+        error = "❌ Erreur",
+        extraInventoryItems = "Injection spécifique d'objets dans l'inventaire Steam d'un jeu",
+        fetchingToolInfo = "Récupération des informations de %0",
+        gameMode = "Mode jeu",
+        inDevelopment = "En développement",
+        information = "Information",
+        install = "Installer",
+        installation = "Installation",
+        installationError = "❌ Erreur d'installation",
+        installationStatus = "État d'installation",
+        installationSuccess = "✅ Installation réussie",
+        installed = "Installé : %0",
+        language = "Langue",
+        logging = "Journalisation",
+        modifyInstallation = "Modifier l'installation",
+        openDataDirectory = "Ouvrir le répertoire de données",
+        openLatestReleasePage = "Accéder à la dernière version",
+        openLogFile = "Ouvrir le fichier de journalisation",
+        openOfficialForumTopic = "Accès au forum officiel",
+        overrideAppStatus = "État de jeu spécifique",
+        overrideDlcStatus = "État de DLC spécifique",
+        notInstalled = "Non-installé",
+        processStatusRunning = "En cours d'exécution",
+        processStatusNotRunning = "Éteint",
+        refreshStatus = "Rafraîchir l'état",
+        reloadConfig = "Recharger la configuration",
+        reloadConfigTooltip = "Recharge la configuration sur un processus Steam en cours d'exécution",
+        reloadConfigSuccess = "✅ Chargement de la configuration réussie",
+        reloadConfigError = "❌ Erreur de chargement de la configuration",
+        restoreDefaultConfiguration = "Restaurer la config. par défaut",
+        settings = "Paramètres",
+        startPage = "Accueil",
+        startPageWelcome = "Bienvenue sur Koalageddon v%0",
+        storeMode = "Mode boutique",
+        storeProcessStatus = "État du processus %0",
+        theme = "Apparence",
+        themeDark = "Sombre",
+        themeLight = "Clair",
+        toolConfig = "Config. de %0",
+        removalError = "❌ Erreur de suppression",
+        removalSuccess = "✅ Suppression réussie",
+        remove = "Supprimer",
+        unlocker = "Débloqueur",
+        unlockFamilySharing = "Débloquer le partage familial",
+        version = "Version v%0",
     )
 
     object Italian : Strings(
@@ -276,7 +340,7 @@ sealed class Strings(
         remove = "Rimuovi",
         unlocker = "Unlocker",
         unlockFamilySharing = "Sblocca Condivisione familiare della Libreria Steam (Family Sharing)",
-        version = "Versione v${BuildConfig.APP_VERSION}",
+        version = "Versione v%0",
     )
 
     object BrazilianPortuguese : Strings(
@@ -342,7 +406,7 @@ sealed class Strings(
         remove = "Remover",
         unlocker = "Desbloquear",
         unlockFamilySharing = "Desbloquear o Compartilhamento de Biblioteca (Family Sharing)",
-        version = "Versão v${BuildConfig.APP_VERSION}",
+        version = "Versão v%0",
     )
 
     object Russian : Strings(
@@ -408,7 +472,7 @@ sealed class Strings(
         remove = "Удалить",
         unlocker = "Разблокировщик",
         unlockFamilySharing = "Разблокировать Семейный Доступ (Family Sharing)",
-        version = "Версия v${BuildConfig.APP_VERSION}",
+        version = "Версия v%0",
     )
 
     object Turkish : Strings(
@@ -474,7 +538,7 @@ sealed class Strings(
         remove = "Kaldır",
         unlocker = "Kilit açıcı",
         unlockFamilySharing = "Aile Paylaşımının Kilidini Aç",
-        version = "Sürüm v${BuildConfig.APP_VERSION}",
+        version = "Sürüm v%0",
     )
 
     object SimplifiedChinese : Strings(
@@ -540,72 +604,6 @@ sealed class Strings(
         remove = "移除",
         unlocker = "解锁工具",
         unlockFamilySharing = "解锁家庭共享",
-        version = "版本 v${BuildConfig.APP_VERSION}",
-    )
-    
-    object French : Strings(
-        autoInjectInventory = "Injection automatique des objets dans l'inventaire Steam d'un jeu",
-        appStatusOriginal = "Original",
-        appStatusUnlocked = "Débloqué",
-        appStatusLocked = "Bloqué",
-        buildTimestamp = "Date du build",
-        cacheSize = "Taille du cache : %0",
-        cancel = "Annuler",
-        checkForUpdates = "Vérifier les mises à jour",
-        clearCache = "Nettoyer le cache",
-        computing = "Calcul",
-        configuration = "Configuration",
-        confirmForceModifyInstallationMessage = "Le processus %0 est en cours d'exécutuon sur votre système. " +
-                "Pour modifier l'état d'installation, il est nécessaire de mettre fin à la tâche. " +
-                "Voulez-vous forcer l'arrêt du processus pour mettre à jour l'état d'installation ?",
-        confirmForceModifyInstallationTitle = "Continuer l'installation / supprimer ?",
-        defaultAppStatus = "État des jeux par défaut",
-        downloadingRelease = "Téléchargement de la mise à jour %0 : %1 sur %2",
-        downloadPreReleaseVersions = "Télécharger les préversions du logiciel",
-        error = "❌ Erreur",
-        extraInventoryItems = "Injection spécifique d'objets dans l'inventaire Steam d'un jeu",
-        fetchingToolInfo = "Récupération des informations de %0",
-        gameMode = "Mode jeu",
-        inDevelopment = "En développement",
-        information = "Information",
-        install = "Installer",
-        installation = "Installation",
-        installationError = "❌ Erreur d'installation",
-        installationStatus = "État d'installation",
-        installationSuccess = "✅ Installation réussie",
-        installed = "Installé : %0",
-        language = "Langue",
-        logging = "Journalisation",
-        modifyInstallation = "Modifier l'installation",
-        openDataDirectory = "Ouvrir le répertoire de données",
-        openLatestReleasePage = "Accéder à la dernière version",
-        openLogFile = "Ouvrir le fichier de journalisation",
-        openOfficialForumTopic = "Accès au forum officiel",
-        overrideAppStatus = "État de jeu spécifique",
-        overrideDlcStatus = "État de DLC spécifique",
-        notInstalled = "Non-installé",
-        processStatusRunning = "En cours d'exécution",
-        processStatusNotRunning = "Éteint",
-        refreshStatus = "Rafraîchir l'état",
-        reloadConfig = "Recharger la configuration",
-        reloadConfigTooltip = "Recharge la configuration sur un processus Steam en cours d'exécution",
-        reloadConfigSuccess = "✅ Chargement de la configuration réussie",
-        reloadConfigError = "❌ Erreur de chargement de la configuration",
-        restoreDefaultConfiguration = "Restaurer la config. par défaut",
-        settings = "Paramètres",
-        startPage = "Accueil",
-        startPageWelcome = "Bienvenue sur Koalageddon v%0",
-        storeMode = "Mode boutique",
-        storeProcessStatus = "État du processus %0",
-        theme = "Apparence",
-        themeDark = "Sombre",
-        themeLight = "Clair",
-        toolConfig = "Config. de %0",
-        removalError = "❌ Erreur de suppression",
-        removalSuccess = "✅ Suppression réussie",
-        remove = "Supprimer",
-        unlocker = "Débloqueur",
-        unlockFamilySharing = "Débloquer le partage familial",
-        version = "Version v${BuildConfig.APP_VERSION}",
+        version = "版本 v%0",
     )
 }

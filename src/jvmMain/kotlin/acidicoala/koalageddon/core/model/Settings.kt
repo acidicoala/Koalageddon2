@@ -3,7 +3,7 @@ package acidicoala.koalageddon.core.model
 import acidicoala.koalageddon.core.values.Strings
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import java.util.Locale
+import java.util.*
 
 @Serializable
 data class Settings constructor(
@@ -18,12 +18,12 @@ data class Settings constructor(
 
                 return when {
                     langTag.startsWith("de", ignoreCase = true) -> Language.German
-                    langTag.startsWith("it", ignoreCase = true) -> Language.Italian
-                    langTag.startsWith("ru", ignoreCase = true) -> Language.Russian
-                    langTag.startsWith("pt", ignoreCase = true) -> Language.BrazilianPortuguese
-                    langTag.startsWith("zh", ignoreCase = true) -> Language.SimplifiedChinese
-                    langTag.startsWith("tr", ignoreCase = true) -> Language.Turkish
                     langTag.startsWith("fr", ignoreCase = true) -> Language.French
+                    langTag.startsWith("it", ignoreCase = true) -> Language.Italian
+                    langTag.startsWith("pt", ignoreCase = true) -> Language.BrazilianPortuguese
+                    langTag.startsWith("ru", ignoreCase = true) -> Language.Russian
+                    langTag.startsWith("tr", ignoreCase = true) -> Language.Turkish
+                    langTag.startsWith("zh", ignoreCase = true) -> Language.SimplifiedChinese
                     else -> Language.English
                 }
             }
@@ -49,6 +49,9 @@ data class Settings constructor(
         English(Locale("en")) {
             override fun text(strings: Strings) = strings.languageEn
         },
+        French(Locale("fr")) {
+            override fun text(strings: Strings) = strings.languageFr
+        },
         Italian(Locale("it")) {
             override fun text(strings: Strings) = strings.languageIt
         },
@@ -64,20 +67,17 @@ data class Settings constructor(
         SimplifiedChinese(Locale("zh", "CN")) {
             override fun text(strings: Strings) = strings.languageZhCn
         },
-        French(Locale("fr")) {
-            override fun text(strings: Strings) = strings.languageFr
-        },
     }
 
     @Transient
     val strings = when (language) {
         Language.German -> Strings.German
         Language.English -> Strings.English
+        Language.French -> Strings.French
         Language.Italian -> Strings.Italian
         Language.BrazilianPortuguese -> Strings.BrazilianPortuguese
         Language.Russian -> Strings.Russian
         Language.Turkish -> Strings.Turkish
         Language.SimplifiedChinese -> Strings.SimplifiedChinese
-        Language.French -> Strings.French
     }
 }

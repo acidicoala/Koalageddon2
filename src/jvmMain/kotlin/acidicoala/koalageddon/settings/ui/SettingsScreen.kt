@@ -1,5 +1,6 @@
 package acidicoala.koalageddon.settings.ui
 
+import acidicoala.koalageddon.BuildConfig
 import acidicoala.koalageddon.core.model.LangString
 import acidicoala.koalageddon.core.model.Settings
 import acidicoala.koalageddon.core.ui.composable.*
@@ -82,7 +83,7 @@ fun SettingsScreen() {
             Divider(Modifier.padding(vertical = 8.dp))
 
             ButtonOption(
-                label = strings.version,
+                label = LangString("%0" to BuildConfig.APP_VERSION) { version }.text,
                 buttonLabel = strings.checkForUpdates,
                 onClick = screenModel::onCheckForUpdates
             )

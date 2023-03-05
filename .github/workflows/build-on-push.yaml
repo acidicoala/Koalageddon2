@@ -1,5 +1,6 @@
 name: Build on push
 on: [ push ]
+#TODO: Exclude pushes with tags only
 jobs:
   build:
     name: Build project distributable

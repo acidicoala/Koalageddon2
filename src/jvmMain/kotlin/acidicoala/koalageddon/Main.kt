@@ -55,6 +55,7 @@ fun main() = application {
                 Settings.Theme.Light -> AppTheme.Material.lightColors
             }
 
+            // TODO: Prompt to add windows defender exclusion folder
             // CompositionLocalProvider(LocalElevationOverlay provides null){
 
             MaterialTheme(colors = colors, shapes = AppTheme.shapes) {
