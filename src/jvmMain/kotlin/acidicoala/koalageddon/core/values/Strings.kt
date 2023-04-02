@@ -475,7 +475,7 @@ sealed class Strings(
         version = "Версия v%0",
     )
     // Turkish translation by "orya"
-    // Türkçe çevirmek isteyen kişilere not: Motamot çeviri yapmadım, daha açıklayıcı kullandım. Aşağıdaki çeviriler gönderdiğim sürüm (v2.0.1) ile tamamen uyumlu ve doğrudur. Gereksiz değişiklikler yapılmamalıdır.
+    // Türkçe çevirmek isteyen kişilere not: Motamot çeviri yapmadım, daha açıklayıcı kullandım. Aşağıdaki çeviriler gönderdiğim sürüm (v2.0.1) ile tamamen uyumlu ve doğrudur. Gereksiz değişiklikler yapılmamalıdır. 
     object Turkish : Strings(
         autoInjectInventory = "Oyun içindeki Steam envanterine öğeler otomatik eklensin",
         appStatusOriginal = "Değiştirilmemiş",
@@ -540,6 +540,11 @@ sealed class Strings(
         unlocker = "Kilit açıcı",
         unlockFamilySharing = "Aile paylaşımı kilidini aç",
         version = "Sürüm v${BuildConfig.APP_VERSION}",
+        /* proxy strings if the previous push is committed
+        proxy: String = "Vekil sunucu kullan",
+        enableProxy: String = "Vekil sunucuyu etkinleştir",
+        inputProxyPlaceHolder: String = "Vekil sunucunuzu girin",
+        proxyUrlIllegal: String = "Vekil sunucu adresi geçersiz. Yalnızca http:// kullanılabilir", */
     )
 
     object SimplifiedChinese : Strings(
