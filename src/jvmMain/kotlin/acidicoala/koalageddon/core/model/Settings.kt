@@ -68,7 +68,7 @@ data class Settings constructor(
         SimplifiedChinese(Locale("zh", "CN")) {
             override fun text(strings: Strings) = strings.languageZhCn
         },
-        SimplifiedChinese(Locale("pl")) {
+        Polish(Locale("pl")) {
             override fun text(strings: Strings) = strings.languagePl
         },
     }
