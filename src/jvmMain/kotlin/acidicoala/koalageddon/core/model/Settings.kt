@@ -24,6 +24,7 @@ data class Settings constructor(
                     langTag.startsWith("ru", ignoreCase = true) -> Language.Russian
                     langTag.startsWith("tr", ignoreCase = true) -> Language.Turkish
                     langTag.startsWith("zh", ignoreCase = true) -> Language.SimplifiedChinese
+                    langTag.startsWith("pl", ignoreCase = true) -> Language.Polish
                     else -> Language.English
                 }
             }
@@ -67,6 +68,9 @@ data class Settings constructor(
         SimplifiedChinese(Locale("zh", "CN")) {
             override fun text(strings: Strings) = strings.languageZhCn
         },
+        SimplifiedChinese(Locale("pl")) {
+            override fun text(strings: Strings) = strings.languagePl
+        },
     }
 
     @Transient
@@ -79,5 +83,6 @@ data class Settings constructor(
         Language.Russian -> Strings.Russian
         Language.Turkish -> Strings.Turkish
         Language.SimplifiedChinese -> Strings.SimplifiedChinese
+        Language.Polish -> Strings.Polish
     }
 }
